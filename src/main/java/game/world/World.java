@@ -4,15 +4,15 @@ import java.util.ArrayList;
 
 public class World {
 
-	private ArrayList<Continent> contients;
+	private ArrayList<Continent> continents;
 	private Graph graph;
 
-	public ArrayList<Continent> getContients() {
-		return contients;
+	public ArrayList<Continent> getContinents() {
+		return continents;
 	}
 
-	public void setContients(ArrayList<Continent> contients) {
-		this.contients = contients;
+	public void setContinents(ArrayList<Continent> continents) {
+		this.continents = continents;
 	}
 
 	public Graph getGraph() {
