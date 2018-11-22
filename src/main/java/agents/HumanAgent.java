@@ -8,18 +8,25 @@ public class HumanAgent implements Agent {
 
 	@Override
 	public void takeTurn(GameState state) {
+		// TODO Auto-generated method stub
 
 	}
 
-	private void place() {
+	@Override
+	public void place(GameState state) {
+		// TODO Auto-generated method stub
 
 	}
 
-	private void attack() {
+	@Override
+	public void attack(GameState state) {
+		// TODO Auto-generated method stub
 
 	}
 
-	private void transfer() {
+	@Override
+	public void transfer(GameState state) {
+		// TODO Auto-generated method stub
 
 	}
 
