@@ -23,6 +23,12 @@ public class GameState implements Cloneable {
 	 
 	 public boolean isLegalAttack(Attack attack) {
 		 
+		 for (int adjacentCountryId : graph.getAdjacentCountries(attack.getAttackingCountry().getIndex())) {
+			 if (attack.getAttackedCountry().getIndex() == adjacentCountryId
+					  && attack.getAttackingCountry().getArmiesSize() > attack.getAttackedCountry().getArmiesSize() + 1) {
+				 return true;
+			 }
+		 }
 		 return false;
 	 }
 
@@ -31,7 +37,7 @@ public class GameState implements Cloneable {
 		for (Country attackingCountry : getOwnedCountries()) {
 			for (int attackedCountryId: graph.getAdjacentCountries(attackingCountry.getIndex())) {
 				Country attackedCountry = graph.getCountryByIndex(attackedCountryId);
-				if (attackedCountry.getOwner() != playerTurn) { // will be fixed on changing the Owner to Enum type.
+				if (attackedCountry.getOwner() != playerTurn) {
 					adjacentOpponentCountries.add(new Attack(attackingCountry, attackedCountry));
 				}
 			}			
@@ -59,7 +65,7 @@ public class GameState implements Cloneable {
 		ArrayList<Country> ownedCountries = new ArrayList<>();
 		for (Continent continent: worldState.getContinents()) {
 			for (Country country: continent.getCountires()) {
-				if (country.getOwner() == playerTurn) { // will be fixed on changing the Owner to Enum type.
+				if (country.getOwner() == playerTurn) {
 					ownedCountries.add(country);
 				}
 			}
@@ -75,11 +81,32 @@ public class GameState implements Cloneable {
 		
 	}
 	
+	/**
+	 * Searches for a country owner that his turn is now, if found, then it's not a terminal state.
+	 * @return true indicating that it's a terminal state, otherwise it returns false.
+	 */
 	public boolean isTerminal() {
-		return false;
+		for (Continent continent: worldState.getContinents()) {
+			for (Country country: continent.getCountires()) {
+				if (country.getOwner() == playerTurn) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 	
 	public Player getWonPlayer() {
+		if (isTerminal()) {
+			return playerTurn == Player.PLAYER_1 ? Player.PLAYER_2 : Player.PLAYER_1;
+		}
+		return null;
+	}
+	
+	public Player getLostPlayer() {
+		if (isTerminal()) {
+			return playerTurn;
+		}
 		return null;
 	}
 	
