@@ -1,5 +1,5 @@
 package agents;
 
-public abstract class Agent {
+public interface Agent {
 
 }
