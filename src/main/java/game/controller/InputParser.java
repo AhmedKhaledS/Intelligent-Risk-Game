@@ -6,7 +6,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import game.Player;
 import game.state.GameState;
+import game.world.Continent;
 import game.world.Country;
 
 public class InputParser {
@@ -17,25 +19,16 @@ public class InputParser {
 	}
 	
 	public GameState parse(String configFileName) {
+		int index = 0;
 		ArrayList<String> fileLines = readFileLines(configFileName);
 		int verticesCount = Integer.parseInt(fileLines.get(0));
-		ArrayList<Country> countries = new ArrayList<>();
-		
+		ArrayList<Country> countries = createCountriesList(fileLines, 1, verticesCount);
 		int edgesCount = Integer.parseInt(fileLines.get(verticesCount + 1));
-		ArrayList<ArrayList<Integer>> adjacencyList = new ArrayList<>();
-		initializeAdjacencyList(adjacencyList, verticesCount);
-		int i = verticesCount + 2;
-		for (; i < edgesCount + 2; i++) {
-			String[] endpointStrings = (fileLines.get(i)).split(" ");
-			Integer from = Integer.parseInt(endpointStrings[0]);
-			Integer to  = Integer.parseInt(endpointStrings[1]);
-			adjacencyList.get(from).add(to);
-			adjacencyList.get(to).add(from);
-		}
-		int noOfContinents = Integer.parseInt(fileLines.get(i++));
-		for (int j = 0; j < noOfContinents; i++, j++) {
-			
-		}
+		ArrayList<ArrayList<Integer>> adjacencyList = buildAdjacencyList(fileLines, verticesCount + 2, edgesCount,
+				verticesCount);
+		index += verticesCount + 2 + edgesCount;
+		int noOfContinents = Integer.parseInt(fileLines.get(index));
+		ArrayList<Continent> continents;
 		return null;
 	}
 	
@@ -69,12 +62,47 @@ public class InputParser {
 	}
 	
 	private ArrayList<Country> createCountriesList(ArrayList<String> lines, int startIndex, int vertices) {
+		ArrayList<Country> countries = new ArrayList<>();
 		for (int i = startIndex, j = 0; i < startIndex + vertices; i++, j++) {
 			String[] countryDescriptor = lines.get(i).split(" ");
 			Integer playerID = Integer.parseInt(countryDescriptor[0]);
 			Integer armiesSize = Integer.parseInt(countryDescriptor[1]);
 			Country country = new Country();
 			country.setArmiesSize(armiesSize);
+			country.setIndex(j);
+			country.setOwner((playerID == 1 ? Player.PLAYER_1 : Player.PLAYER_2));
+			countries.add(country);
+		}
+		return countries;
+	}
+	
+	private ArrayList<ArrayList<Integer>> buildAdjacencyList(ArrayList<String> lines, int startIndex, int edges
+			,int verticesCount) {
+		ArrayList<ArrayList<Integer>> adjacencyList = new ArrayList<>();
+		initializeAdjacencyList(adjacencyList, verticesCount);
+		for (int i = startIndex; i < startIndex + edges; i++) {
+			String[] endpointStrings = (lines.get(i)).split(" ");
+			Integer from = Integer.parseInt(endpointStrings[0]);
+			Integer to  = Integer.parseInt(endpointStrings[1]);
+			adjacencyList.get(from).add(to);
+			adjacencyList.get(to).add(from);
+		}
+		return adjacencyList;
+	}
+	
+	private ArrayList<Continent> buildContinentsList(ArrayList<String> lines, int startIndex, int continentsCount,
+			ArrayList<Country> countries) {
+		ArrayList<Continent> continents = new ArrayList<>();
+		for (int i = startIndex; i < startIndex + continentsCount; i++) {
+			String[] continentDescriptor = lines.get(i).split(" ");
+			Integer continentValue = Integer.parseInt(continentDescriptor[0]);
+			Integer continentSize = Integer.parseInt(continentDescriptor[1]);
+//			ArrayList<Country> continentCountries = new ArrayList<>();
+//			for (int j = 0; j < continentSize; j++) {
+//				continentCountries.add(countries.get(Integer.parseInt()))
+//			}
+//			Continent continent = new Continent();
+//			
 		}
 		return null;
 	}

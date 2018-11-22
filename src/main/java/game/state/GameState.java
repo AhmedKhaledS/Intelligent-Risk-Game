@@ -3,12 +3,14 @@ package game.state;
 import java.util.List;
 
 import game.Player;
+import game.world.Graph;
 import game.world.World;
 
 public class GameState implements Cloneable {
 	
-	 World worldState;
-	 Player playerTurn;
+	 private World worldState;
+	 private Player playerTurn;
+	 private Graph graph;
 	
 	public List<Move> getLegalMoves() {
 		return null;
