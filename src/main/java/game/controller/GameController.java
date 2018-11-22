@@ -1,9 +1,13 @@
 package game.controller;
 
-import game.CurrentPlayer;
+import game.Player;
 
 public class GameController {
 
+	public void initializeGame(String configFileName) {
+		
+	}
+	
 	/**
 	 * Returns the winning player.
 	 */
