@@ -6,12 +6,14 @@ import java.util.List;
 import game.Player;
 import game.world.Continent;
 import game.world.Country;
+import game.world.Graph;
 import game.world.World;
 
 public class GameState implements Cloneable {
 	
-	private World worldState;
-	private Player playerTurn;
+	 private World worldState;
+	 private Player playerTurn;
+	 private Graph graph;
 	
 	public World getWorldState() {
 		return worldState;
@@ -32,7 +34,8 @@ public class GameState implements Cloneable {
 	public ArrayList<Attack> getLegalCountriesAttack() {
 		ArrayList<Attack> adjacentOpponentCountries = new ArrayList<>();
 		for (Country attackingCountry : getOwnedCountries()) {
-			for (Country attackedCountry: graph.getAdjacent(attackingCountry)) {
+			for (int attackedCountryId: graph.getAdjacentCountries(attackingCountry.getIndex())) {
+				Country attackedCountry = graph.getCountryById(attackedCountry);
 				if (attackedCountry.getOwner() != playerTurn) { // will be fixed on changing the Owner to Enum type.
 					adjacentOpponentCountries.add(new Attack(attackingCountry, attackedCountry));
 				}
