@@ -19,6 +19,7 @@ public class GameState implements Cloneable {
 			 playerTurn = Player.PLAYER_2;
 		 else
 			 playerTurn = Player.PLAYER_1;
+		 // To be implemented later after adding the informing attributes of the attack (i.e Distribution & Transfers).
 	 }
 	 
 	 public boolean isLegalAttack(Attack attack) {
@@ -47,7 +48,7 @@ public class GameState implements Cloneable {
 	
 	public GameState forecastAttack(Attack attack) {
 		if (!isLegalAttack(attack))
-			return null; // or throw an exception, it will be revised later.
+			return null; 
 		GameState newState = null;
 		try {
 			newState = (GameState)this.clone();
@@ -136,8 +137,6 @@ public class GameState implements Cloneable {
 
 	public void setGraph(Graph graph) {
 		this.graph = graph;
-	}
-	
-	
+	}	
 	
 }
