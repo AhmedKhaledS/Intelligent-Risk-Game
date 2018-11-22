@@ -23,6 +23,12 @@ public class GameState implements Cloneable {
 	 
 	 public boolean isLegalAttack(Attack attack) {
 		 
+		 for (int adjacentCountryId : graph.getAdjacentCountries(attack.getAttackingCountry().getIndex())) {
+			 if (attack.getAttackedCountry().getIndex() == adjacentCountryId
+					  && attack.getAttackingCountry().getArmiesSize() > attack.getAttackedCountry().getArmiesSize() + 1) {
+				 return true;
+			 }
+		 }
 		 return false;
 	 }
 
