@@ -2,10 +2,12 @@ package game;
 
 import java.util.List;
 
+import game.world.World;
+
 public class GameState implements Cloneable {
 	
-//	 World worldState;
-//	 Enum playerTurn;
+	 World worldState;
+	 CurrentPlayer playerTurn;
 	
 	public List<Move> getLegalMoves() {
 		return null;
