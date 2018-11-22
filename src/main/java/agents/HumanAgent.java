@@ -4,11 +4,10 @@ import game.state.GameState;
 
 public class HumanAgent implements Agent {
 
-	private int bouns = 0;
+	private int bonus = 0;
 
 	@Override
 	public void takeTurn(GameState state) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -20,7 +19,7 @@ public class HumanAgent implements Agent {
 
 	}
 
-	private void transfere() {
+	private void transfer() {
 
 	}
 

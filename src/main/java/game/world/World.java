@@ -11,13 +11,9 @@ public class World {
 		continents = new ArrayList<>();
 	}
 	
-	
-
 	public ArrayList<Continent> getContinents() {
 		return continents;
 	}
-
-
 
 	public void setContinents(ArrayList<Continent> continents) {
 		this.continents = continents;

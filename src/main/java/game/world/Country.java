@@ -6,7 +6,7 @@ public class Country {
 	
 	private Player owner;
 	private int armiesSize;
-	private int index;
+	private int id;
 	
 	public Player getOwner() {
 		return owner;
@@ -15,10 +15,10 @@ public class Country {
 		this.owner = owner;
 	}
 	public int getIndex() {
-		return index;
+		return id;
 	}
 	public void setIndex(int index) {
-		this.index = index;
+		this.id = index;
 	}
 	public int getArmiesSize() {
 		return armiesSize;
