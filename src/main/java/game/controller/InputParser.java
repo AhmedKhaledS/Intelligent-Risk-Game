@@ -120,6 +120,9 @@ public class InputParser {
 			continent.setContinentBonus(continentBonus);
 			continent.setCountires(continentCountries);
 			continents.add(continent);
+			for (Country country : continentCountries) {
+				country.setContinent(continent);
+			}
 		}
 		return continents;
 	}

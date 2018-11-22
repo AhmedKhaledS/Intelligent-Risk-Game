@@ -19,8 +19,6 @@ public class World {
 		this.continents = continents;
 	}
 
-
-
 	public Graph getGraph() {
 		return graph;
 	}
