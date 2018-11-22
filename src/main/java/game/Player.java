@@ -1,6 +1,6 @@
 package game;
 
-public enum CurrentPlayer {
+public enum Player {
 	PLAYER_1,
 	PLAYER_2
 }

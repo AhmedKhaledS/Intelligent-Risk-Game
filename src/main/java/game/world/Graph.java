@@ -7,7 +7,7 @@ public class Graph {
 	private ArrayList<ArrayList<Integer>> adjacencyList;
 	
 	public Graph() {
-		
+		adjacencyList = new ArrayList<>();
 	}
 
 	public ArrayList<ArrayList<Integer>> getAdjacencyList() {
@@ -18,4 +18,7 @@ public class Graph {
 		this.adjacencyList = adjacencyList;
 	}
 
+	public ArrayList<Integer> getAdjacentCountries(int index) {
+		return adjacencyList.get(index);
+	}
 }

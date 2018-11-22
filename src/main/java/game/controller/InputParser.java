@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import game.state.GameState;
+import game.world.Country;
 
 public class InputParser {
 
@@ -18,8 +19,23 @@ public class InputParser {
 	public GameState parse(String configFileName) {
 		ArrayList<String> fileLines = readFileLines(configFileName);
 		int verticesCount = Integer.parseInt(fileLines.get(0));
-		int edgesCount = Integer.parseInt(fileLines.get(1));
+		ArrayList<Country> countries = new ArrayList<>();
 		
+		int edgesCount = Integer.parseInt(fileLines.get(verticesCount + 1));
+		ArrayList<ArrayList<Integer>> adjacencyList = new ArrayList<>();
+		initializeAdjacencyList(adjacencyList, verticesCount);
+		int i = verticesCount + 2;
+		for (; i < edgesCount + 2; i++) {
+			String[] endpointStrings = (fileLines.get(i)).split(" ");
+			Integer from = Integer.parseInt(endpointStrings[0]);
+			Integer to  = Integer.parseInt(endpointStrings[1]);
+			adjacencyList.get(from).add(to);
+			adjacencyList.get(to).add(from);
+		}
+		int noOfContinents = Integer.parseInt(fileLines.get(i++));
+		for (int j = 0; j < noOfContinents; i++, j++) {
+			
+		}
 		return null;
 	}
 	
@@ -43,5 +59,23 @@ public class InputParser {
 			System.err.println("Cannot Close File");
 		}
 		return lines;
+	}
+	
+	private void initializeAdjacencyList(ArrayList<ArrayList<Integer>> list, int n) {
+		for (int i = 0; i < n; i++) {
+			list.add(new ArrayList<>());
+		}
+		return;
+	}
+	
+	private ArrayList<Country> createCountriesList(ArrayList<String> lines, int startIndex, int vertices) {
+		for (int i = startIndex, j = 0; i < startIndex + vertices; i++, j++) {
+			String[] countryDescriptor = lines.get(i).split(" ");
+			Integer playerID = Integer.parseInt(countryDescriptor[0]);
+			Integer armiesSize = Integer.parseInt(countryDescriptor[1]);
+			Country country = new Country();
+			country.setArmiesSize(armiesSize);
+		}
+		return null;
 	}
 }

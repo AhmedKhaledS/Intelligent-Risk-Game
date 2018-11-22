@@ -7,11 +7,15 @@ public class World {
 	private ArrayList<Continent> continents;
 	private Graph graph;
 
+	public World() {
+		continents = new ArrayList<>();
+	}
+	
 	public ArrayList<Continent> getContinents() {
 		return continents;
 	}
 
-	public void setContinents(ArrayList<Continent> continents) {
+	public void setContients(ArrayList<Continent> continents) {
 		this.continents = continents;
 	}
 

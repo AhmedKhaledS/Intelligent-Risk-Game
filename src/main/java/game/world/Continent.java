@@ -5,7 +5,11 @@ import java.util.ArrayList;
 public class Continent {
 	
 	private int continentBonus;
-	private ArrayList<Country> countires;
+	private ArrayList<Country> countries;
+
+	public Continent() {
+		countries = new ArrayList<>();
+	}
 	
 	public int getContinentBonus() {
 		return continentBonus;
@@ -16,11 +20,11 @@ public class Continent {
 	}
 	
 	public ArrayList<Country> getCountires() {
-		return countires;
+		return countries;
 	}
 	
 	public void setCountires(ArrayList<Country> countires) {
-		this.countires = countires;
+		this.countries = countires;
 	}
 	
 }
