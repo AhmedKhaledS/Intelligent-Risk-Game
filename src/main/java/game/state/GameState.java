@@ -2,13 +2,13 @@ package game.state;
 
 import java.util.List;
 
-import game.CurrentPlayer;
+import game.Player;
 import game.world.World;
 
 public class GameState implements Cloneable {
 	
 	 World worldState;
-	 CurrentPlayer playerTurn;
+	 Player playerTurn;
 	
 	public List<Move> getLegalMoves() {
 		return null;

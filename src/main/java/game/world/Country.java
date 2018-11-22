@@ -1,17 +1,24 @@
 package game.world;
 
-import agents.Agent;
+import game.Player;
 
 public class Country {
 	
-	private Agent owner;
+	private Player owner;
 	private int armiesSize;
+	private int index;
 	
-	public Agent getOwner() {
+	public Player getOwner() {
 		return owner;
 	}
-	public void setOwner(Agent owner) {
+	public void setOwner(Player owner) {
 		this.owner = owner;
+	}
+	public int getIndex() {
+		return index;
+	}
+	public void setIndex(int index) {
+		this.index = index;
 	}
 	public int getArmiesSize() {
 		return armiesSize;
