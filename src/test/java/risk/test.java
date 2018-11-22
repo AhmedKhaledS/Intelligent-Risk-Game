@@ -1,10 +1,17 @@
 package risk;
 
+import game.GameState;
+
 public class test {
 
 	public static void main(String[] args) {
-		System.out.println("Hello World!");
-
+		GameState x = new GameState();
+		GameState y;
+		try {
+			y = (GameState)x.clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
