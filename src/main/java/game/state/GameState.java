@@ -2,6 +2,7 @@ package game.state;
 
 import java.util.List;
 
+import game.CurrentPlayer;
 import game.world.World;
 
 public class GameState implements Cloneable {
