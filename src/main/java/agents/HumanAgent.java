@@ -11,7 +11,7 @@ public class HumanAgent implements Agent {
 
 	}
 
-	private void distribute() {
+	private void place() {
 
 	}
 
