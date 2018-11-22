@@ -16,7 +16,8 @@ public class AggressiveAgent implements Agent {
 
 	}
 
-	void place(GameState state) {
+	@Override
+	public void place(GameState state) {
 
 		// Get the owned countries from the "GameState" class
 		ArrayList<Country> countries = state.getOwnedCountries();
@@ -37,7 +38,8 @@ public class AggressiveAgent implements Agent {
 
 	}
 
-	void attack(GameState state) {
+	@Override
+	public void attack(GameState state) {
 
 		ArrayList<Attack> attacks = state.getLegalCountriesAttack();
 
@@ -53,8 +55,7 @@ public class AggressiveAgent implements Agent {
 			int currDamage = playerCountry.getArmiesSize() - opponentCountry.getArmiesSize();
 			if (currDamage > maxDamage) {
 
-				if (maxContinent != null &&
-						!maxContinent.equals(opponentCountry.getContinent())) {
+				if (maxContinent != null && !maxContinent.equals(opponentCountry.getContinent())) {
 					continue;
 				}
 
@@ -64,10 +65,12 @@ public class AggressiveAgent implements Agent {
 			}
 		}
 
-		System.out.println("Country" + playerCountryIndex + "is attacking Country" + opponentCountryIndex);
+		System.out.println("Country" + playerCountryIndex +
+				"is attacking Country" + opponentCountryIndex);
 	}
 
-	void transfer() {
+	@Override
+	public void transfer(GameState state) {
 
 	}
 
@@ -86,7 +89,8 @@ public class AggressiveAgent implements Agent {
 
 		for (Attack attack : attacks) {
 			Continent continent = attack.getAttackedCountry().getContinent();
-			if (continent.getContinentOwner() == opponentPlayer && continent.getContinentBonus() > maxContinentValue) {
+			if (continent.getContinentOwner() == opponentPlayer &&
+					continent.getContinentBonus() > maxContinentValue) {
 				maxContinent = continent;
 				maxContinentValue = continent.getContinentBonus();
 			}

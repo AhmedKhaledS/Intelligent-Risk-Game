@@ -13,7 +13,8 @@ public class PassiveAgent implements Agent {
 
 	}
 
-	void place(GameState state) {
+	@Override
+	public void place(GameState state) {
 
 		// Get the owned countries from the "GameState" class
 		ArrayList<Country> countries = state.getOwnedCountries();
@@ -34,11 +35,13 @@ public class PassiveAgent implements Agent {
 		
 	}
 
-	void attack() {
+	@Override
+	public void attack(GameState state) {
 		// I will not attack ^_^
 	}
 
-	void transfer() {
+	@Override
+	public void transfer(GameState state) {
 		// I will not transfer too ^_^
 	}
 }
