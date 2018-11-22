@@ -85,14 +85,20 @@ public class GameState implements Cloneable {
 	 * @return true indicating that it's a terminal state, otherwise it returns false.
 	 */
 	public boolean isTerminal() {
+		boolean currentPlayerRulesWorld = true;
+		boolean opponentPlayerRulesWorld = true;
 		for (Continent continent: worldState.getContinents()) {
 			for (Country country: continent.getCountires()) {
-				if (country.getOwner() == playerTurn) {
-					return false;
+				if (country.getOwner() != playerTurn) {
+					currentPlayerRulesWorld = false;
+				} else {
+					opponentPlayerRulesWorld = false;
 				}
 			}
 		}
-		return true;
+		if (currentPlayerRulesWorld || opponentPlayerRulesWorld) return true;
+		// Skip case of this player
+		return false;
 	}
 	
 	public Player getWonPlayer() {
