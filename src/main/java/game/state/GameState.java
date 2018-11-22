@@ -43,6 +43,31 @@ public class GameState implements Cloneable {
 	public Object clone() throws CloneNotSupportedException {
 		return (GameState)super.clone();
 	}
+
+	public World getWorldState() {
+		return worldState;
+	}
+
+	public void setWorldState(World worldState) {
+		this.worldState = worldState;
+	}
+
+	public Player getPlayerTurn() {
+		return playerTurn;
+	}
+
+	public void setPlayerTurn(Player playerTurn) {
+		this.playerTurn = playerTurn;
+	}
+
+	public Graph getGraph() {
+		return graph;
+	}
+
+	public void setGraph(Graph graph) {
+		this.graph = graph;
+	}
+	
 	
 	
 }
