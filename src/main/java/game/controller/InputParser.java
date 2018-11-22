@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import game.Player;
 import game.state.GameState;
@@ -36,6 +38,7 @@ public class InputParser {
 		world.setContinents(continents);
 		Graph graph = new Graph();
 		graph.setAdjacencyList(adjacencyList);
+		buildCountriesMap(countries, graph);
 		world.setGraph(graph);
 		GameState state = new GameState();
 		state.setGraph(graph);
@@ -49,7 +52,7 @@ public class InputParser {
 		ArrayList<String> lines = new ArrayList<String>();
 		try {
 			bufferedReader = new BufferedReader(new FileReader(configFileName));
-			String line = null;
+			String line = "";
 			while((line) != null) {
 				String line_read =  bufferedReader.readLine();
 			    if (line_read != null) {
@@ -67,7 +70,7 @@ public class InputParser {
 	}
 	
 	private void initializeAdjacencyList(ArrayList<ArrayList<Integer>> list, int n) {
-		for (int i = 0; i < n; i++) {
+		for (int i = 0; i < n + 1; i++) {
 			list.add(new ArrayList<>());
 		}
 		return;
@@ -75,7 +78,7 @@ public class InputParser {
 	
 	private ArrayList<Country> createCountriesList(ArrayList<String> lines, int startIndex, int vertices) {
 		ArrayList<Country> countries = new ArrayList<>();
-		for (int i = startIndex, j = 0; i < startIndex + vertices; i++, j++) {
+		for (int i = startIndex, j = 1; i < startIndex + vertices; i++, j++) {
 			String[] countryDescriptor = lines.get(i).split(" ");
 			Integer playerID = Integer.parseInt(countryDescriptor[0]);
 			Integer armiesSize = Integer.parseInt(countryDescriptor[1]);
@@ -111,7 +114,7 @@ public class InputParser {
 			Integer continentSize = Integer.parseInt(continentDescriptor[1]);
 			ArrayList<Country> continentCountries = new ArrayList<>();
 			for (int j = 0; j < continentSize; j++) {
-				continentCountries.add(countries.get(Integer.parseInt(continentDescriptor[j + 2])));
+				continentCountries.add(countries.get(Integer.parseInt(continentDescriptor[j + 2]) - 1));
 			}
 			Continent continent = new Continent();
 			continent.setContinentBonus(continentBonus);
@@ -119,5 +122,19 @@ public class InputParser {
 			continents.add(continent);
 		}
 		return continents;
+	}
+	
+	private void buildCountriesMap(ArrayList<Country> countries, Graph graph) {
+		int index = 0;
+		for (Country country : countries) {
+			graph.setCountryIndex(country, country.getIndex());
+		}
+		return;
+	}
+	
+	public static void main(String[] args) {
+		InputParser parser = new InputParser();
+		GameState state = parser.parse("config.txt");
+		System.out.println("Finished Parsing");
 	}
 }
