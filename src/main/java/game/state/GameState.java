@@ -52,8 +52,6 @@ public class GameState implements Cloneable {
 		GameState newState = null;
 		try {
 			newState = (GameState)this.clone();
-			newState.setPlayerTurn(this.playerTurn == Player.PLAYER_1 ?
-					Player.PLAYER_2 : Player.PLAYER_1);
 			newState.applyAttack(attack);
 		} catch (CloneNotSupportedException e) {
 			e.printStackTrace();
@@ -99,14 +97,14 @@ public class GameState implements Cloneable {
 	
 	public Player getWonPlayer() {
 		if (isTerminal()) {
-			return playerTurn == Player.PLAYER_1 ? Player.PLAYER_2 : Player.PLAYER_1;
+			return playerTurn;
 		}
 		return null;
 	}
 	
 	public Player getLostPlayer() {
 		if (isTerminal()) {
-			return playerTurn;
+			return playerTurn == Player.PLAYER_1 ? Player.PLAYER_2 : Player.PLAYER_1;
 		}
 		return null;
 	}
