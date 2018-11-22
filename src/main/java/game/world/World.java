@@ -15,9 +15,11 @@ public class World {
 		return continents;
 	}
 
-	public void setContients(ArrayList<Continent> continents) {
+	public void setContinents(ArrayList<Continent> continents) {
 		this.continents = continents;
 	}
+
+
 
 	public Graph getGraph() {
 		return graph;

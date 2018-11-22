@@ -10,6 +10,8 @@ import game.Player;
 import game.state.GameState;
 import game.world.Continent;
 import game.world.Country;
+import game.world.Graph;
+import game.world.World;
 
 public class InputParser {
 
@@ -27,9 +29,19 @@ public class InputParser {
 		ArrayList<ArrayList<Integer>> adjacencyList = buildAdjacencyList(fileLines, verticesCount + 2, edgesCount,
 				verticesCount);
 		index += verticesCount + 2 + edgesCount;
-		int noOfContinents = Integer.parseInt(fileLines.get(index));
-		ArrayList<Continent> continents;
-		return null;
+		int continentsCount = Integer.parseInt(fileLines.get(index));
+		ArrayList<Continent> continents = buildContinentsList(fileLines, ++index, continentsCount, countries);
+		index += continentsCount;
+		World world = new World();
+		world.setContinents(continents);
+		Graph graph = new Graph();
+		graph.setAdjacencyList(adjacencyList);
+		world.setGraph(graph);
+		GameState state = new GameState();
+		state.setGraph(graph);
+		state.setWorldState(world);
+		state.setPlayerTurn(Player.PLAYER_1);
+		return state;
 	}
 	
 	private ArrayList<String> readFileLines(String configFileName) {
@@ -95,15 +107,17 @@ public class InputParser {
 		ArrayList<Continent> continents = new ArrayList<>();
 		for (int i = startIndex; i < startIndex + continentsCount; i++) {
 			String[] continentDescriptor = lines.get(i).split(" ");
-			Integer continentValue = Integer.parseInt(continentDescriptor[0]);
+			Integer continentBonus = Integer.parseInt(continentDescriptor[0]);
 			Integer continentSize = Integer.parseInt(continentDescriptor[1]);
-//			ArrayList<Country> continentCountries = new ArrayList<>();
-//			for (int j = 0; j < continentSize; j++) {
-//				continentCountries.add(countries.get(Integer.parseInt()))
-//			}
-//			Continent continent = new Continent();
-//			
+			ArrayList<Country> continentCountries = new ArrayList<>();
+			for (int j = 0; j < continentSize; j++) {
+				continentCountries.add(countries.get(Integer.parseInt(continentDescriptor[j + 2])));
+			}
+			Continent continent = new Continent();
+			continent.setContinentBonus(continentBonus);
+			continent.setCountires(continentCountries);
+			continents.add(continent);
 		}
-		return null;
+		return continents;
 	}
 }
