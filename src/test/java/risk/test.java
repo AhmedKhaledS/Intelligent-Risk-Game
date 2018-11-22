@@ -1,6 +1,6 @@
 package risk;
 
-import game.GameState;
+import game.state.GameState;
 
 public class test {
 
