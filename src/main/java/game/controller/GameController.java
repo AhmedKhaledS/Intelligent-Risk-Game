@@ -4,6 +4,10 @@ import game.CurrentPlayer;
 
 public class GameController {
 
+	public void initializeGame(String configFileName) {
+		
+	}
+	
 	/**
 	 * Returns the winning player.
 	 */
