@@ -34,6 +34,10 @@ public class PassiveAgent implements Agent {
 		// Get the owned countries from the "GameState" class
 		ArrayList<Country> countries = state.getOwnedCountries();
 
+		// Extra check if the counties is empty to terminate the placing phase
+		if (countries.size() == 0)
+			return;
+
 		// Get the country with the minimum number of soldiers
 		Country minCountry = countries.get(0);
 
