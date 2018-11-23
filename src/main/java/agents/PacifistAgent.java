@@ -46,6 +46,10 @@ public class PacifistAgent implements Agent {
 
 		System.out.println("Country #" + minCountry.getId() +
 				" is chosen to put " + bonusArmies + " soldiers");
+		
+		// Perform the actual changes
+//		ArmyPlacement placement = new ArmyPlacement(minCountry, bonusArmies);
+//		state.placeArmy(placement);
 
 	}
 
@@ -101,6 +105,11 @@ public class PacifistAgent implements Agent {
 
 		System.out.println("Country #" + playerCountry.getId() +
 				" is attacking Country #" + opponentCountry.getId());
+		
+		// Perform the actual changes
+		Attack attack = new Attack(playerCountry, opponentCountry);
+		attack.setArmyTransferCount((playerCountry.getArmiesSize() - opponentCountry.getArmiesSize()) / 2);
+
 	}
 
 	@Override

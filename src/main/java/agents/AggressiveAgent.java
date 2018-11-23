@@ -30,7 +30,7 @@ public class AggressiveAgent implements Agent {
 
 	@Override
 	public void place(GameState state) {
-		
+
 		// Initially, Get the number of bonus armies
 		int bonusArmies = calculator.getBonus(state, prevAttack);
 
@@ -52,8 +52,12 @@ public class AggressiveAgent implements Agent {
 
 		}
 
-		System.out.println("Country #" + maxCountry.getId() +
-				" is chosen to put " + bonusArmies + " soldiers");
+		System.out.println("Country #" + maxCountry.getId() + " is chosen to put " + bonusArmies + " soldiers");
+
+		// Perform the actual changes
+		// ArmyPlacement placement = new ArmyPlacement(minCountry, bonusArmies);
+		// state.placeArmy(placement);
+
 	}
 
 	@Override
@@ -110,6 +114,10 @@ public class AggressiveAgent implements Agent {
 		}
 
 		System.out.println("Country #" + playerCountry.getId() + " is attacking Country #" + opponentCountry.getId());
+
+		// Perform the actual changes
+		Attack attack = new Attack(playerCountry, opponentCountry);
+		attack.setArmyTransferCount((playerCountry.getArmiesSize() - opponentCountry.getArmiesSize()) / 2);
 
 	}
 
