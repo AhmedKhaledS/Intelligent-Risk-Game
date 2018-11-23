@@ -9,8 +9,11 @@ import java.util.PriorityQueue;
 import java.util.Set;
 
 import agents.Agent;
+import agents.PassiveAgent;
 import agents.intelligent.heuristics.Heuristic;
+import agents.intelligent.heuristics.UnclaimedTerritoriesHeuristic;
 import agents.util.BounsCalculator;
+import game.controller.InputParser;
 import game.state.ArmyPlacement;
 import game.state.Attack;
 import game.state.GameState;
@@ -20,6 +23,7 @@ public class AStarAgent extends InformedSearchAgent {
 	
 	public AStarAgent(GameState initialState, Agent opponentAgent, Heuristic heuristic) {
 		super(initialState, opponentAgent, heuristic);
+		search(initialState);
 	}
 
 	@Override
@@ -52,6 +56,7 @@ public class AStarAgent extends InformedSearchAgent {
 				GameState virtual = current.forecastArmyPlacement(placement);
 				ArrayList<Attack> possibleAttacks = virtual.getLegalCountriesAttack();
 				Attack nonAttack = new Attack(null, null);		// Add the state reached when no attack is made.
+				nonAttack.setPlacement(placement.clone());
 				virtual.setCost(heuristic.getHeuristicValue(virtual) + virtual.getDepth());
 				virtual.setPrevTurnAttacked(false);
 				addGameState(searchQueue, visited, virtual);
@@ -64,6 +69,7 @@ public class AStarAgent extends InformedSearchAgent {
 							int onAttacked = armies - onAttacking;
 							Attack newAttack = possibleAttack.clone();
 							newAttack.setArmyTransferCount(onAttacked);
+							newAttack.setPlacement(placement.clone());
 							GameState newVirtual = virtual.clone();
 							newVirtual.setPrevTurnAttacked(true);
 							newVirtual.applyAttack(newAttack);
@@ -83,6 +89,13 @@ public class AStarAgent extends InformedSearchAgent {
 			searchQueue.add(state);
 		}
 		return;
+	}
+	
+	public static void main(String args[]) {
+		InputParser parser = new InputParser();
+		GameState state = parser.parse("config.txt");
+		AStarAgent agent = new AStarAgent(state, new PassiveAgent(), new UnclaimedTerritoriesHeuristic());
+		
 	}
 	
 }

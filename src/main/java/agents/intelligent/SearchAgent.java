@@ -16,7 +16,6 @@ public abstract class SearchAgent implements Agent {
 	public SearchAgent(GameState initialState, Agent opponentAgent) {
 		this.moves = new ArrayList<>();
 		this.opponentAgent = opponentAgent;
-		search(initialState);
 	}
 	
 	public void search(GameState initialState) {
@@ -24,23 +23,21 @@ public abstract class SearchAgent implements Agent {
 	}
 	
 	@Override
-	public void takeTurn(GameState state) {
-		// TODO : Place Army 
-		// TODO : Attack
-		// TODO : 
-//		Attack attack = moves.get(index);
+	public void takeTurn(GameState state) { 
+		place(state);
+		attack(state);
+		index++;
 	}
 
 	@Override
 	public void place(GameState state) {
-		// TODO Auto-generated method stub
-
+		Attack attack = moves.get(index);
+		state.placeArmy(attack.getPlacement());
 	}
 
 	@Override
 	public void attack(GameState state) {
-		// TODO Auto-generated method stub
-
+		state.applyAttack(moves.get(index));
 	}
 
 	@Override
