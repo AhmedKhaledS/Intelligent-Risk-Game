@@ -27,7 +27,7 @@ public class PacifistAgent implements Agent {
 		for (Country country : countries) {
 			int currValue = country.getArmiesSize();
 			if (currValue < minCountryValue) {
-				minCountryIndex = country.getIndex();
+				minCountryIndex = country.getId();
 				minCountryValue = currValue;
 			}
 		}
@@ -50,8 +50,8 @@ public class PacifistAgent implements Agent {
 			Country opponentCountry = attack.getAttackedCountry();
 			int currDamage = opponentCountry.getArmiesSize();
 			if (currDamage < minDamage) {
-				playerCountryIndex = playerCountry.getIndex();
-				opponentCountryIndex = opponentCountry.getIndex();
+				playerCountryIndex = playerCountry.getId();
+				opponentCountryIndex = opponentCountry.getId();
 				minDamage = currDamage;
 			}
 		}

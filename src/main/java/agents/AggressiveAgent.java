@@ -29,7 +29,7 @@ public class AggressiveAgent implements Agent {
 		for (Country country : countries) {
 			int currValue = country.getArmiesSize();
 			if (currValue > maxCountryValue) {
-				maxCountryIndex = country.getIndex();
+				maxCountryIndex = country.getId();
 				maxCountryValue = currValue;
 			}
 		}
@@ -59,8 +59,8 @@ public class AggressiveAgent implements Agent {
 					continue;
 				}
 
-				playerCountryIndex = playerCountry.getIndex();
-				opponentCountryIndex = opponentCountry.getIndex();
+				playerCountryIndex = playerCountry.getId();
+				opponentCountryIndex = opponentCountry.getId();
 				maxDamage = currDamage;
 			}
 		}
