@@ -54,6 +54,7 @@ public class AStarAgent extends InformedSearchAgent {
 			for (Country country : ownedCountries) {			// Loop over all possible placement of armies (Over owned countries).
 				ArmyPlacement placement = new ArmyPlacement(country, bonusArmies);
 				GameState virtual = current.forecastArmyPlacement(placement);
+				GameState virtualTest = virtual.clone();
 				ArrayList<Attack> possibleAttacks = virtual.getLegalCountriesAttack();
 				Attack nonAttack = new Attack(null, null);		// Add the state reached when no attack is made.
 				nonAttack.setPlacement(placement.clone());
@@ -70,7 +71,7 @@ public class AStarAgent extends InformedSearchAgent {
 							Attack newAttack = possibleAttack.clone();
 							newAttack.setArmyTransferCount(onAttacked);
 							newAttack.setPlacement(placement.clone());
-							GameState newVirtual = virtual.clone();
+							GameState newVirtual = virtualTest.clone();
 							newVirtual.setPrevTurnAttacked(true);
 							newVirtual.applyAttack(newAttack);
 							newVirtual.setCost(heuristic.getHeuristicValue(newVirtual) + newVirtual.getDepth());
