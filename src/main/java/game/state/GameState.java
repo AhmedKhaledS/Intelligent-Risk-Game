@@ -18,6 +18,15 @@ public class GameState implements Cloneable, Comparable<GameState> {
 	 private GameState previousState;
 	 private Integer cost = 0;
 	 private Integer depth = 0;
+	 private boolean prevTurnAttacked;
+	 
+	public boolean isPrevTurnAttacked() {
+		return prevTurnAttacked;
+	}
+
+	public void setPrevTurnAttacked(boolean prevTurnAttacked) {
+		this.prevTurnAttacked = prevTurnAttacked;
+	}
 
 	public Integer getDepth() {
 		return depth;

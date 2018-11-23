@@ -11,9 +11,11 @@ public abstract class SearchAgent implements Agent {
 
 	protected ArrayList<Attack> moves;
 	protected int index = 0;
+	protected Agent opponentAgent;
 	
-	public SearchAgent(GameState initialState) {
+	public SearchAgent(GameState initialState, Agent opponentAgent) {
 		this.moves = new ArrayList<>();
+		this.opponentAgent = opponentAgent;
 		search(initialState);
 	}
 	
