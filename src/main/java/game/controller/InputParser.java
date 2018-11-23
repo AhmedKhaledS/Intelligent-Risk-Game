@@ -6,6 +6,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import agents.Agent;
+import agents.AggressiveAgent;
+import agents.PacifistAgent;
+import agents.PassiveAgent;
 import game.Player;
 import game.state.Attack;
 import game.state.GameState;
@@ -150,6 +154,11 @@ public class InputParser {
 		System.out.println("Terminal State: " + newState.isTerminal());
 		System.out.println("Won Player: " + newState.getWonPlayer());
 		System.out.println("Lost Player: " + newState.getLostPlayer());
+		Agent agent = new AggressiveAgent();
+		agent.attack(state);
 		
+		
+//		System.out.println;
+//		System.out.println("Finished Parsing");
 	}
 }

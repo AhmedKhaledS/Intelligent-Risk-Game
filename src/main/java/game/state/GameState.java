@@ -15,8 +15,35 @@ public class GameState implements Cloneable, Comparable<GameState> {
 	 private World worldState;
 	 private Player playerTurn;
 	 private Graph graph;
+	 private GameState previousState;
+	 private Integer cost = 0;
+	 private Integer depth = 0;
 
-	 public void applyAttack(Attack attack) {
+	 public Integer getDepth() {
+		return depth;
+	}
+
+	public void setDepth(Integer depth) {
+		this.depth = depth;
+	}
+
+	public Integer getCost() {
+		return cost;
+	}
+
+	public void setCost(Integer cost) {
+		this.cost = cost;
+	}
+
+	public GameState getPreviousState() {
+		return previousState;
+	}
+
+	public void setPreviousState(GameState previousState) {
+		this.previousState = previousState;
+	}
+
+	public void applyAttack(Attack attack) {
 		 if (playerTurn == Player.PLAYER_1)
 			 playerTurn = Player.PLAYER_2;
 		 else
