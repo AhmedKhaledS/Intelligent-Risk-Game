@@ -44,7 +44,6 @@ public class InputParser {
 		buildCountriesMap(countries, graph);
 		world.setGraph(graph);
 		GameState state = new GameState();
-		state.setGraph(graph);
 		state.setWorldState(world);
 		state.setPlayerTurn(Player.PLAYER_1);
 		return state;

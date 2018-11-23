@@ -31,6 +31,17 @@ public class World implements Comparable<World>, Cloneable {
 		this.graph = graph;
 	}
 	
+	public Country getCountryById(int countryId) {
+		Country foundCountry = null;
+		for (Continent continent: continents) {
+			foundCountry = continent.getCountryById(countryId);
+			if (foundCountry != null) {
+				return foundCountry;
+			}
+		}
+		return foundCountry;
+	}
+	
 	@Override
 	public int compareTo(World arg0) {
 		ArrayList<Continent> continentsA = this.getContinents();

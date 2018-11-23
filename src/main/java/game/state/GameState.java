@@ -14,7 +14,6 @@ public class GameState implements Cloneable, Comparable<GameState> {
 	
 	 private World worldState;
 	 private Player playerTurn;
-	 private Graph graph;
 	 private GameState previousState;
 	 private Integer cost = 0;
 	 private Integer depth = 0;
@@ -50,10 +49,12 @@ public class GameState implements Cloneable, Comparable<GameState> {
 			 playerTurn = Player.PLAYER_1;
 		 // To be implemented later after adding the informing attributes of the attack (i.e Distribution & Transfers).
 	 }
+	
+	
 	 
 	 public boolean isLegalAttack(Attack attack) {
 		 
-		 for (int adjacentCountryId : graph.getAdjacentCountries(attack.getAttackingCountry().getId())) {
+		 for (int adjacentCountryId : worldState.getGraph().getAdjacentCountries(attack.getAttackingCountry().getId())) {
 			 if (attack.getAttackedCountry().getId() == adjacentCountryId
 					  && attack.getAttackingCountry().getArmiesSize() > attack.getAttackedCountry().getArmiesSize() + 1) {
 				 return true;
@@ -65,9 +66,10 @@ public class GameState implements Cloneable, Comparable<GameState> {
 	public ArrayList<Attack> getLegalCountriesAttack() {
 		ArrayList<Attack> adjacentOpponentCountries = new ArrayList<>();
 		for (Country attackingCountry : getOwnedCountries()) {
-			for (int attackedCountryId: graph.getAdjacentCountries(attackingCountry.getId())) {
-				Country attackedCountry = graph.getCountryByIndex(attackedCountryId);
-				if (attackedCountry.getOwner() != playerTurn) {
+			for (int attackedCountryId: worldState.getGraph().getAdjacentCountries(attackingCountry.getId())) {
+				Country attackedCountry = worldState.getGraph().getCountryByIndex(attackedCountryId);
+				if (attackedCountry.getOwner() != playerTurn
+						&& attackingCountry.getArmiesSize() > attackedCountry.getArmiesSize() + 1) {
 					adjacentOpponentCountries.add(new Attack(attackingCountry, attackedCountry));
 				}
 			}			
@@ -75,11 +77,17 @@ public class GameState implements Cloneable, Comparable<GameState> {
 		return adjacentOpponentCountries;
 	}
 	
+	public GameState forecastArmyPlacement(ArmyPlacement placement) {
+		GameState newState = clone();
+		newState.getWorldState().getCountryById(
+				placement.getChosenCountry().getId()).setArmiesSize(placement.getTroopsCount());
+		return newState;
+	}
+	
 	public GameState forecastAttack(Attack attack) {
 		if (!isLegalAttack(attack))
 			return null; 
-		GameState newState = null;
-		newState = (GameState)this.clone();
+		GameState newState = this.clone();
 		newState.applyAttack(attack);
 		return newState;
 	}
@@ -165,13 +173,6 @@ public class GameState implements Cloneable, Comparable<GameState> {
 		this.playerTurn = playerTurn;
 	}
 
-	public Graph getGraph() {
-		return graph;
-	}
-
-	public void setGraph(Graph graph) {
-		this.graph = graph;
-	}
 
 	/**
 	 * This function compares 2 game state and returns 0 if they are equal.
