@@ -10,6 +10,7 @@ public class Continent implements Comparable<Continent> {
 	
 	private int continentBonus;
 	private ArrayList<Country> countries;
+	private int continentID;
 
 	public Continent() {
 		countries = new ArrayList<>();
@@ -40,7 +41,15 @@ public class Continent implements Comparable<Continent> {
 		}
 		return true;
 	}
-	
+
+	public int getContinentID() {
+		return continentID;
+	}
+
+	public void setContinentID(int continentID) {
+		this.continentID = continentID;
+	}
+
 	public Player getContinentOwner() {
 		if (!hasContinentOwner()) return null;
 		return countries.get(0).getOwner();
