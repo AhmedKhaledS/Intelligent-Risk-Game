@@ -44,4 +44,6 @@ public class Attack {
 	public void setAttackedCountry(Country attackedCountry) {
 		this.attackedCountry = attackedCountry;
 	}
+	
+	
 }

@@ -19,7 +19,7 @@ public class GameState implements Cloneable, Comparable<GameState> {
 	 private Integer cost = 0;
 	 private Integer depth = 0;
 
-	 public Integer getDepth() {
+	public Integer getDepth() {
 		return depth;
 	}
 
@@ -84,7 +84,6 @@ public class GameState implements Cloneable, Comparable<GameState> {
 		return newState;
 	}
 	
-	
 	public ArrayList<Country> getOwnedCountries() {
 		ArrayList<Country> ownedCountries = new ArrayList<>();
 		for (Continent continent: worldState.getContinents()) {
@@ -144,6 +143,9 @@ public class GameState implements Cloneable, Comparable<GameState> {
 		GameState clonedState = new GameState();
 		clonedState.setPlayerTurn(playerTurn);
 		clonedState.setWorldState(worldState.clone());
+		clonedState.setCost(cost);
+		clonedState.setDepth(depth);
+		clonedState.setPreviousState(previousState);
 		return clonedState;
 	}
 
