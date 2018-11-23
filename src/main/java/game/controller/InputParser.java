@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import agents.Agent;
+import agents.AggressiveAgent;
+import agents.PacifistAgent;
+import agents.PassiveAgent;
 import game.Player;
 import game.state.Attack;
 import game.state.GameState;
@@ -151,6 +155,10 @@ public class InputParser {
 		System.out.println("Terminal State: " + newState.isTerminal());
 		System.out.println("Won Player: " + newState.getWonPlayer());
 		System.out.println("Lost Player: " + newState.getLostPlayer());
+		
+		Agent agent = new PassiveAgent();
+		agent.place(state);
+		
 		
 //		System.out.println;
 //		System.out.println("Finished Parsing");

@@ -34,7 +34,7 @@ public class AggressiveAgent implements Agent {
 			}
 		}
 
-		System.out.println("Country #" + maxCountryIndex + "is chosen");
+		System.out.println("Country #" + maxCountryIndex + " is chosen");
 
 	}
 

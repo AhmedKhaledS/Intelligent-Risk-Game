@@ -20,19 +20,27 @@ public class PassiveAgent implements Agent {
 		ArrayList<Country> countries = state.getOwnedCountries();
 
 		// Get the country with the minimum number of soldiers
-		int minCountryIndex = -1;
+		Country minCountry = null;
 		int minCountryValue = Integer.MAX_VALUE;
+		int minCountryIndex = -1;
 
 		for (Country country : countries) {
 			int currValue = country.getArmiesSize();
+			int currIndex = country.getIndex();
 			if (currValue < minCountryValue) {
-				minCountryIndex = country.getIndex();
+				minCountry = country;
 				minCountryValue = currValue;
+				minCountryIndex = currIndex;
+			} else if (currValue == minCountryValue &&
+					currIndex < minCountryIndex) {
+				minCountry = country;
+				minCountryValue = currValue;
+				minCountryIndex = currIndex;
 			}
 		}
-		
-		System.out.println("Country #" + minCountryIndex + "is chosen");
-		
+
+		System.out.println("Country #" + minCountry.getIndex() + " is chosen");
+
 	}
 
 	@Override

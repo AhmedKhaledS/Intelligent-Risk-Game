@@ -32,7 +32,7 @@ public class PacifistAgent implements Agent {
 			}
 		}
 
-		System.out.println("Country #" + minCountryIndex + "is chosen");
+		System.out.println("Country #" + minCountryIndex + " is chosen");
 
 	}
 
@@ -48,7 +48,7 @@ public class PacifistAgent implements Agent {
 		for (Attack attack : attacks) {
 			Country playerCountry = attack.getAttackingCountry();
 			Country opponentCountry = attack.getAttackedCountry();
-			int currDamage = playerCountry.getArmiesSize() - opponentCountry.getArmiesSize();
+			int currDamage = opponentCountry.getArmiesSize();
 			if (currDamage < minDamage) {
 				playerCountryIndex = playerCountry.getIndex();
 				opponentCountryIndex = opponentCountry.getIndex();
@@ -56,8 +56,8 @@ public class PacifistAgent implements Agent {
 			}
 		}
 
-		System.out.println("Country" + playerCountryIndex +
-				"is attacking Country" + opponentCountryIndex);
+		System.out.println("Country #" + playerCountryIndex +
+				" is attacking Country #" + opponentCountryIndex);
 	}
 
 	@Override
