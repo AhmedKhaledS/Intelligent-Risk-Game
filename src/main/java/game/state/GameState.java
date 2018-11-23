@@ -14,7 +14,8 @@ public class GameState implements Cloneable, Comparable<GameState> {
 	 private Player playerTurn;
 	 private Graph graph;
 	 private GameState previousState;
-	 private Integer cost;
+	 private Integer cost = 0;
+	 private Integer depth = 0;
 
 	 public Integer getCost() {
 		return cost;
