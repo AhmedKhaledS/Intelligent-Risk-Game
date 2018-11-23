@@ -50,6 +50,7 @@ public class GameState implements Cloneable, Comparable<GameState> {
 			 playerTurn = Player.PLAYER_1;
 		 }
 		 
+		 this.depth++;
 		 if (attack.getAttackingCountry() == null || attack.getAttackedCountry() == null) {
 			 return;
 		 }
@@ -60,7 +61,6 @@ public class GameState implements Cloneable, Comparable<GameState> {
 				 						- attackedCountry.getArmiesSize() - attack.getArmyTransferCount());
 		 attackedCountry.setOwner(attackingPlayer);
 		 attackedCountry.setArmiesSize(attack.getArmyTransferCount());		
-		 this.depth++;
 	 }
 
 	public ArrayList<Attack> getLegalCountriesAttack() {

@@ -170,7 +170,7 @@ public class InputParser {
 		}
 
 		// 3. Create our simple agent
-		Agent agent = new PassiveAgent();
+		Agent agent = new AggressiveAgent();
 		
 		// 3.1. Simple Agent: PLACE
 		agent.place(state);
