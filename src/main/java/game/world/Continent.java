@@ -54,6 +54,14 @@ public class Continent implements Comparable<Continent>, Cloneable {
 		if (!hasContinentOwner()) return null;
 		return countries.get(0).getOwner();
 	}
+	
+	public Country getCountryById(int countryId) {
+		for (Country country: countries) {
+			if (country.getId() == countryId)
+				return country;
+		}
+		return null;
+	}
 
 	/**
 	 * Comparing continents.
