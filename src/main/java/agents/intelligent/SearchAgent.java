@@ -24,19 +24,32 @@ public abstract class SearchAgent implements Agent {
 	
 	@Override
 	public void takeTurn(GameState state) { 
+		if (index >= moves.size()) {
+			System.err.println("In Search Agent: No More Planned Moves to take!");
+			return;
+		}
 		place(state);
 		attack(state);
 		index++;
+		System.out.println("In Search Agent: Performed Move # " + index);
 	}
 
 	@Override
 	public void place(GameState state) {
+		if (index >= moves.size()) {
+			System.err.println("In Search Agent: No More Planned Moves to take!");
+			return;
+		}
 		Attack attack = moves.get(index);
 		state.placeArmy(attack.getPlacement());
 	}
 
 	@Override
 	public void attack(GameState state) {
+		if (index >= moves.size()) {
+			System.err.println("In Search Agent: No More Planned Moves to take!");
+			return;
+		}
 		state.applyAttack(moves.get(index));
 	}
 

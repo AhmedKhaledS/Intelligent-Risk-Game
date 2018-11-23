@@ -19,13 +19,13 @@ import game.state.Attack;
 import game.state.GameState;
 import game.world.Country;
 
-public class AStarAgent extends InformedSearchAgent {
-	
-	public AStarAgent(GameState initialState, Agent opponentAgent, Heuristic heuristic) {
+public class GreedyAgent extends InformedSearchAgent {
+
+	public GreedyAgent(GameState initialState, Agent opponentAgent, Heuristic heuristic) {
 		super(initialState, opponentAgent, heuristic);
 		search(initialState);
 	}
-
+	
 	@Override
 	public void search(GameState initialState) {
 		PriorityQueue<GameState> searchQueue = new PriorityQueue<>();
@@ -59,7 +59,7 @@ public class AStarAgent extends InformedSearchAgent {
 				ArrayList<Attack> possibleAttacks = virtual.getLegalCountriesAttack();
 				Attack nonAttack = new Attack(null, null);		// Add the state reached when no attack is made.
 				nonAttack.setPlacement(placement.clone());
-				virtual.setCost(heuristic.getHeuristicValue(virtual) + virtual.getDepth());
+				virtual.setCost(heuristic.getHeuristicValue(virtual));
 				virtual.setPrevTurnAttacked(false);
 				virtual.applyAttack(nonAttack);
 				virtual.setPreviousState(current);
@@ -76,7 +76,7 @@ public class AStarAgent extends InformedSearchAgent {
 							newAttack.setPlacement(placement.clone());
 							GameState newVirtual = virtualTest.clone();
 							newVirtual.setPrevTurnAttacked(true);
-							newVirtual.setCost(heuristic.getHeuristicValue(newVirtual) + newVirtual.getDepth());
+							newVirtual.setCost(heuristic.getHeuristicValue(newVirtual));
 							newVirtual.applyAttack(newAttack);
 							newVirtual.setPreviousState(current);
 							addGameState(searchQueue, visited, newVirtual);
@@ -95,35 +95,12 @@ public class AStarAgent extends InformedSearchAgent {
 		}
 		return;
 	}
-	
-	public static void main(String args[]) {
+
+	public static void main(String[] args) {
 		InputParser parser = new InputParser();
 		GameState state = parser.parse("config.txt");
-		AStarAgent agent = new AStarAgent(state, new PassiveAgent(), new UnclaimedTerritoriesHeuristic());
-		  
-        // 3.1. Simple Agent: PLACE
-        agent.place(state);
-        // 3.1.1 His name
-        System.out.println("POINT 3.1");
-        System.out.println(state.getPlayerTurn());
-        // 3.1.1 His countries
-        ArrayList<Country> ownedCountries = state.getOwnedCountries();
-        for (int i = 0; i < ownedCountries.size(); i++) {
-            System.out.println("Ownded Countries: " + ownedCountries.get(i).getId() + " "
-                    + ownedCountries.get(i).getArmiesSize());
-        }
+		GreedyAgent agent = new GreedyAgent(state, new PassiveAgent(), new UnclaimedTerritoriesHeuristic());
 
-        // 3.2. Simple Agent: ATTACK
-        agent.attack(state);
-        // 3.2.1 His name
-        System.out.println("POINT 3.2");
-        System.out.println(state.getPlayerTurn());
-        // 3.1.1 His countries
-        ownedCountries = state.getOwnedCountries();
-        for (int i = 0; i < ownedCountries.size(); i++) {
-            System.out.println("Ownded Countries: " + ownedCountries.get(i).getId() + " "
-                    + ownedCountries.get(i).getArmiesSize());
-        }
 	}
-	
+
 }
