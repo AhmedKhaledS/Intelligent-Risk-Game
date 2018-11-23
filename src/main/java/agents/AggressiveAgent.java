@@ -2,7 +2,9 @@ package agents;
 
 import java.util.ArrayList;
 
+import agents.util.BounsCalculator;
 import game.Player;
+import game.state.ArmyPlacement;
 import game.state.Attack;
 import game.state.GameState;
 import game.util.CountriesPlacementComparator;
@@ -18,13 +20,20 @@ public class AggressiveAgent implements Agent {
 	}
 
 	private CountriesPlacementComparator comparator;
+	private BounsCalculator calculator;
+	boolean prevAttack;
 
 	public AggressiveAgent() {
 		comparator = CountriesPlacementComparator.getInstance();
+		calculator = BounsCalculator.getInstance();
+		prevAttack = false;
 	}
 
 	@Override
 	public void place(GameState state) {
+
+		// Initially, Get the number of bonus armies
+		int bonusArmies = calculator.getBonus(state, prevAttack);
 
 		// Get the owned countries from the "GameState" class
 		ArrayList<Country> countries = state.getOwnedCountries();
@@ -44,7 +53,11 @@ public class AggressiveAgent implements Agent {
 
 		}
 
-		System.out.println("Country #" + maxCountry.getId() + " is chosen");
+		System.out.println("Country #" + maxCountry.getId() + " is chosen to put " + bonusArmies + " soldiers");
+
+		// Perform the actual changes
+		 ArmyPlacement placement = new ArmyPlacement(maxCountry, bonusArmies);
+		 state.placeArmy(placement);
 
 	}
 
@@ -103,6 +116,10 @@ public class AggressiveAgent implements Agent {
 
 		System.out.println("Country #" + playerCountry.getId() + " is attacking Country #" + opponentCountry.getId());
 
+		// Perform the actual changes
+		Attack attack = new Attack(playerCountry, opponentCountry);
+		attack.setArmyTransferCount((playerCountry.getArmiesSize() - opponentCountry.getArmiesSize()) / 2);
+		state.applyAttack(attack);
 	}
 
 	@Override
