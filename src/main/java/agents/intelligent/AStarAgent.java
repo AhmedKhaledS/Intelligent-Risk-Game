@@ -36,6 +36,9 @@ public class AStarAgent extends InformedSearchAgent {
 		Map<GameState, Attack> attacks = new HashMap<>();
 		while (!searchQueue.isEmpty()) {
 			GameState current = searchQueue.poll();
+			if (!firstTurn) {  									//	Opponent Agent does not take turn in first iteration. (Player 1 starts)		
+				opponentAgent.takeTurn(current);
+			}
 			if (current.isTerminal()) {							// Terminal State : backtracking to get the list of attacks done in the path to terminal state.
 				while (current.getPreviousState() != null) {
 					moves.add(attacks.get(current));
@@ -45,9 +48,6 @@ public class AStarAgent extends InformedSearchAgent {
 				return;
 			}
 			visited.add(current);
-			if (!firstTurn) {  									//	Opponent Agent does not take turn in first iteration. (Player 1 starts)		
-				opponentAgent.takeTurn(current);
-			}
 			firstTurn = false;
 			int bonusArmies = bonusCalculator.getBonus(current, current.isPrevTurnAttacked());
 			ArrayList<Country> ownedCountries = current.getOwnedCountries();
@@ -73,8 +73,8 @@ public class AStarAgent extends InformedSearchAgent {
 							newAttack.setPlacement(placement.clone());
 							GameState newVirtual = virtualTest.clone();
 							newVirtual.setPrevTurnAttacked(true);
-							newVirtual.applyAttack(newAttack);
 							newVirtual.setCost(heuristic.getHeuristicValue(newVirtual) + newVirtual.getDepth());
+							newVirtual.applyAttack(newAttack);
 							addGameState(searchQueue, visited, newVirtual);
 							attacks.put(newVirtual, newAttack);
 						}
