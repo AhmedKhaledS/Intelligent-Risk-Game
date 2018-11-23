@@ -3,6 +3,7 @@ package agents;
 import java.util.ArrayList;
 
 import game.state.GameState;
+import game.util.CountriesPlacementComparator;
 import game.world.Country;
 
 public class PassiveAgent implements Agent {
@@ -13,6 +14,12 @@ public class PassiveAgent implements Agent {
 
 	}
 
+	private CountriesPlacementComparator comparator;
+
+	public PassiveAgent() {
+		comparator = CountriesPlacementComparator.getInstance();
+	}
+
 	@Override
 	public void place(GameState state) {
 
@@ -20,27 +27,15 @@ public class PassiveAgent implements Agent {
 		ArrayList<Country> countries = state.getOwnedCountries();
 
 		// Get the country with the minimum number of soldiers
-		Country minCountry = null;
-		int minCountryValue = Integer.MAX_VALUE;
-		int minCountryIndex = -1;
+		Country minCountry = countries.get(0);
 
 		for (Country country : countries) {
-			int currValue = country.getArmiesSize();
-			int currIndex = country.getId();
-			if (currValue < minCountryValue) {
+			if (comparator.compare(country, minCountry) == -1) {
 				minCountry = country;
-				minCountryValue = currValue;
-				minCountryIndex = currIndex;
-			} else if (currValue == minCountryValue &&
-					currIndex < minCountryIndex) {
-				minCountry = country;
-				minCountryValue = currValue;
-				minCountryIndex = currIndex;
 			}
 		}
 
 		System.out.println("Country #" + minCountry.getId() + " is chosen");
-
 	}
 
 	@Override

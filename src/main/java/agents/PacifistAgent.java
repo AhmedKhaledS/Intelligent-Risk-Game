@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import game.state.Attack;
 import game.state.GameState;
+import game.util.CountriesPlacementComparator;
 import game.world.Country;
 
 public class PacifistAgent implements Agent {
@@ -14,6 +15,12 @@ public class PacifistAgent implements Agent {
 
 	}
 
+	private CountriesPlacementComparator comparator;
+
+	public PacifistAgent() {
+		comparator = CountriesPlacementComparator.getInstance();
+	}
+
 	@Override
 	public void place(GameState state) {
 
@@ -21,43 +28,66 @@ public class PacifistAgent implements Agent {
 		ArrayList<Country> countries = state.getOwnedCountries();
 
 		// Get the country with the minimum number of soldiers
-		int minCountryIndex = -1;
-		int minCountryValue = Integer.MAX_VALUE;
+		Country minCountry = countries.get(0);
 
 		for (Country country : countries) {
-			int currValue = country.getArmiesSize();
-			if (currValue < minCountryValue) {
-				minCountryIndex = country.getId();
-				minCountryValue = currValue;
+			if (comparator.compare(country, minCountry) == -1) {
+				minCountry = country;
 			}
 		}
 
-		System.out.println("Country #" + minCountryIndex + " is chosen");
+		System.out.println("Country #" + minCountry.getId() + " is chosen");
 
 	}
 
 	@Override
 	public void attack(GameState state) {
 
+		// Get the legal attacks from the "GameState" class
 		ArrayList<Attack> attacks = state.getLegalCountriesAttack();
 
-		int playerCountryIndex = -1;
-		int opponentCountryIndex = -1;
+		if (attacks.size() == 0) {
+			return;
+		}
+
+		// Get the attack with the minimum damage of soldiers
+		Country playerCountry = attacks.get(0).getAttackingCountry();
+		Country opponentCountry = attacks.get(0).getAttackedCountry();
 		int minDamage = Integer.MAX_VALUE;
 
 		for (Attack attack : attacks) {
-			Country playerCountry = attack.getAttackingCountry();
-			Country opponentCountry = attack.getAttackedCountry();
-			int currDamage = opponentCountry.getArmiesSize();
+
+			Country currPlayerCountry = attack.getAttackingCountry();
+			Country currOpponentCountry = attack.getAttackedCountry();
+			int currDamage = currOpponentCountry.getArmiesSize();
+
+			// Change the state if a lowering can be achieved in the damage
 			if (currDamage < minDamage) {
-				playerCountryIndex = playerCountry.getId();
-				opponentCountryIndex = opponentCountry.getId();
+				playerCountry = currPlayerCountry;
+				opponentCountry = currOpponentCountry;
 				minDamage = currDamage;
+
+				// if no lowering can be achieved in the damage
+			} else if (currDamage == minDamage) {
+
+				// Change the state if a lowering can be achieved in the player country
+				if (currPlayerCountry.getId() < playerCountry.getId()) {
+					playerCountry = currPlayerCountry;
+					opponentCountry = currOpponentCountry;
+
+					// if no lowering can be achieved in the player country
+					// Change the state if a lowering can be achieved in the opponent country
+				} else if (currPlayerCountry.getId() == playerCountry.getId()) {
+					if (currOpponentCountry.getId() < opponentCountry.getId()) {
+						playerCountry = currPlayerCountry;
+						opponentCountry = currOpponentCountry;
+					}
+				}
 			}
 		}
 
-		System.out.println("Country #" + playerCountryIndex +
-				" is attacking Country #" + opponentCountryIndex);
+		System.out.println("Country #" + playerCountry.getId() +
+				" is attacking Country #" + opponentCountry.getId());
 	}
 
 	@Override

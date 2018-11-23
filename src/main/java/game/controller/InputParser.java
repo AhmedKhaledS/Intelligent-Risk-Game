@@ -156,8 +156,8 @@ public class InputParser {
 		System.out.println("Won Player: " + newState.getWonPlayer());
 		System.out.println("Lost Player: " + newState.getLostPlayer());
 		
-		Agent agent = new PassiveAgent();
-		agent.place(state);
+		Agent agent = new AggressiveAgent();
+		agent.attack(state);
 		
 		
 //		System.out.println;
