@@ -29,7 +29,7 @@ public class PacifistAgent implements Agent {
 
 	@Override
 	public void place(GameState state) {
-		
+
 		// Initially, Get the number of bonus armies
 		int bonusArmies = calculator.getBonus(state, prevAttack);
 
@@ -45,9 +45,8 @@ public class PacifistAgent implements Agent {
 			}
 		}
 
-		System.out.println("Country #" + minCountry.getId() +
-				" is chosen to put " + bonusArmies + " soldiers");
-		
+		System.out.println("Country #" + minCountry.getId() + " is chosen to put " + bonusArmies + " soldiers");
+
 		// Perform the actual changes
 		ArmyPlacement placement = new ArmyPlacement(minCountry, bonusArmies);
 		state.placeArmy(placement);
@@ -62,7 +61,14 @@ public class PacifistAgent implements Agent {
 
 		// Check for the possibility of the existence of attack
 		if (attacks.size() == 0) {
+
+			// Sending "NULL" attack to the "GameState"
+			Attack attack = new Attack(null, null);
+			state.applyAttack(attack);
+
+			// Setting "prevAttack" to false denoting failure of attack
 			prevAttack = false;
+
 			return;
 		}
 
@@ -103,14 +109,12 @@ public class PacifistAgent implements Agent {
 				}
 			}
 		}
-		
-		
+
 		int transfereCount = (playerCountry.getArmiesSize() - opponentCountry.getArmiesSize()) / 2;
 
-		System.out.println("Country #" + playerCountry.getId() +
-				" is attacking Country #" + opponentCountry.getId() +
-				" with transfere of " + transfereCount);
-		
+		System.out.println("Country #" + playerCountry.getId() + " is attacking Country #" + opponentCountry.getId()
+				+ " with transfere of " + transfereCount);
+
 		// Perform the actual changes
 		Attack attack = new Attack(playerCountry, opponentCountry);
 		attack.setArmyTransferCount(transfereCount);
