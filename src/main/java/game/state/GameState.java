@@ -167,10 +167,12 @@ public class GameState implements Cloneable, Comparable<GameState> {
 	@Override
 	public int compareTo(GameState state) {
 		
-		if (worldState.equals(state.getWorldState()) && playerTurn == state.playerTurn) {
-			return 0;
+		if (this.getCost() > state.getCost()) {
+			return 1;
+		} else if (this.getCost() < state.getCost()) {
+			return -1;
 		}
-		return -1;
+		return 0; // equally in cost.
 	}	
 	
 	public boolean equals(Object o) {
@@ -181,8 +183,11 @@ public class GameState implements Cloneable, Comparable<GameState> {
 	    if (!(o instanceof GameState)) {
 	      return false;
 	    }
-	    
-	    return compareTo((GameState)o) == 0;
+	    GameState state = (GameState)o;
+	    if (worldState.equals(state.getWorldState()) && this.playerTurn == state.playerTurn) {
+			return true;
+		}
+	    return false;
 	}
 	
 	public World getWorldState() {
