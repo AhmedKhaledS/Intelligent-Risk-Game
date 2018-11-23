@@ -17,7 +17,15 @@ public class GameState implements Cloneable, Comparable<GameState> {
 	 private Integer cost = 0;
 	 private Integer depth = 0;
 
-	 public Integer getCost() {
+	 public Integer getDepth() {
+		return depth;
+	}
+
+	public void setDepth(Integer depth) {
+		this.depth = depth;
+	}
+
+	public Integer getCost() {
 		return cost;
 	}
 
