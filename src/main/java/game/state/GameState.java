@@ -18,42 +18,27 @@ public class GameState implements Cloneable, Comparable<GameState> {
 	 private Integer cost = 0;
 	 private Integer depth = 0;
 
-	public Integer getDepth() {
-		return depth;
-	}
-
-	public void setDepth(Integer depth) {
-		this.depth = depth;
-	}
-
-	public Integer getCost() {
-		return cost;
-	}
-
-	public void setCost(Integer cost) {
-		this.cost = cost;
-	}
-
-	public GameState getPreviousState() {
-		return previousState;
-	}
-
-	public void setPreviousState(GameState previousState) {
-		this.previousState = previousState;
-	}
-
-	public void applyAttack(Attack attack) {
-		 if (playerTurn == Player.PLAYER_1)
-			 playerTurn = Player.PLAYER_2;
-		 else
-			 playerTurn = Player.PLAYER_1;
-		 // To be implemented later after adding the informing attributes of the attack (i.e Distribution & Transfers).
+	public void applyAttack(Attack attack) { // Just changes gameState (attacking, changes attacked country owner and number of troops with transfer)
+		if (!isLegalAttack(attack)) {
+			throw new RuntimeException("Cannot apply this (invalid) attack!");
+		}
+		// Placement is already done.
+		this.worldState.getCountryById(attack.getAttackedCountry().getId()).setOwner(playerTurn);
+		this.worldState.getCountryById(attack.getAttackedCountry().getId()).setArmiesSize(attack.getArmyTransferCount());		
+		this.depth++;
+		if (playerTurn == Player.PLAYER_1) {
+			playerTurn = Player.PLAYER_2;
+		} else {
+			playerTurn = Player.PLAYER_1;
+		}
 	 }
 	
 	
 	 
 	 public boolean isLegalAttack(Attack attack) {
-		 
+		 if (attack.getAttackingCountry().getOwner() == attack.getAttackedCountry().getOwner()) {
+			 return false;
+		 }
 		 for (int adjacentCountryId : worldState.getGraph().getAdjacentCountries(attack.getAttackingCountry().getId())) {
 			 if (attack.getAttackedCountry().getId() == adjacentCountryId
 					  && attack.getAttackingCountry().getArmiesSize() > attack.getAttackedCountry().getArmiesSize() + 1) {
@@ -77,10 +62,22 @@ public class GameState implements Cloneable, Comparable<GameState> {
 		return adjacentOpponentCountries;
 	}
 	
+	public void placeArmy(ArmyPlacement placement) {
+		this.getWorldState().getCountryById(placement.getChosenCountry().getId())
+							.setArmiesSize(this.getWorldState().getCountryById(placement.getChosenCountry().getId())
+							.getArmiesSize() + placement.getTroopsCount());
+	}
+	
+	/**
+	 * Places the army in a new cloned game state.
+	 * @param placement The specified placement based on the agent desire.
+	 * @return the cloned game state after applying the placement.
+	 */
 	public GameState forecastArmyPlacement(ArmyPlacement placement) {
 		GameState newState = clone();
-		newState.getWorldState().getCountryById(
-				placement.getChosenCountry().getId()).setArmiesSize(placement.getTroopsCount());
+		newState.getWorldState().getCountryById(placement.getChosenCountry().getId())
+							.setArmiesSize(newState.getWorldState().getCountryById(placement.getChosenCountry().getId())
+							.getArmiesSize() + placement.getTroopsCount());
 		return newState;
 	}
 	
@@ -112,10 +109,6 @@ public class GameState implements Cloneable, Comparable<GameState> {
 		
 	}
 	
-	/**
-	 * Searches for a country owner that his turn is now, if found, then it's not a terminal state.
-	 * @return true indicating that it's a terminal state, otherwise it returns false.
-	 */
 	public boolean isTerminal() {
 		boolean currentPlayerRulesWorld = true;
 		boolean opponentPlayerRulesWorld = true;
@@ -157,23 +150,6 @@ public class GameState implements Cloneable, Comparable<GameState> {
 		return clonedState;
 	}
 
-	public World getWorldState() {
-		return worldState;
-	}
-
-	public void setWorldState(World worldState) {
-		this.worldState = worldState;
-	}
-
-	public Player getPlayerTurn() {
-		return playerTurn;
-	}
-
-	public void setPlayerTurn(Player playerTurn) {
-		this.playerTurn = playerTurn;
-	}
-
-
 	/**
 	 * This function compares 2 game state and returns 0 if they are equal.
 	 * @param state the compared game state.
@@ -198,7 +174,48 @@ public class GameState implements Cloneable, Comparable<GameState> {
 	    }
 	    
 	    return compareTo((GameState)o) == 0;
-	 }
+	}
+	
+	public World getWorldState() {
+		return worldState;
+	}
+
+	public void setWorldState(World worldState) {
+		this.worldState = worldState;
+	}
+
+	public Player getPlayerTurn() {
+		return playerTurn;
+	}
+
+	public void setPlayerTurn(Player playerTurn) {
+		this.playerTurn = playerTurn;
+	}
+
+	public Integer getDepth() {
+		return depth;
+	}
+
+	public void setDepth(Integer depth) {
+		this.depth = depth;
+	}
+
+	public Integer getCost() {
+		return cost;
+	}
+
+	public void setCost(Integer cost) {
+		this.cost = cost;
+	}
+
+	public GameState getPreviousState() {
+		return previousState;
+	}
+
+	public void setPreviousState(GameState previousState) {
+		this.previousState = previousState;
+	}
+	
 	
 	public static void main(String[] args) throws CloneNotSupportedException {
 		Country c1 = new Country();
