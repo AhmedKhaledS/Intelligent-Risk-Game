@@ -2,6 +2,7 @@ package agents;
 
 import java.util.ArrayList;
 
+import agents.util.BounsCalculator;
 import game.Player;
 import game.state.Attack;
 import game.state.GameState;
@@ -18,13 +19,20 @@ public class AggressiveAgent implements Agent {
 	}
 
 	private CountriesPlacementComparator comparator;
+	private BounsCalculator calculator;
+	boolean prevAttack;
 
 	public AggressiveAgent() {
 		comparator = CountriesPlacementComparator.getInstance();
+		calculator = BounsCalculator.getInstance();
+		prevAttack = false;
 	}
 
 	@Override
 	public void place(GameState state) {
+		
+		// Initially, Get the number of bonus armies
+		int bonusArmies = calculator.getBonus(state, prevAttack);
 
 		// Get the owned countries from the "GameState" class
 		ArrayList<Country> countries = state.getOwnedCountries();
@@ -44,8 +52,8 @@ public class AggressiveAgent implements Agent {
 
 		}
 
-		System.out.println("Country #" + maxCountry.getId() + " is chosen");
-
+		System.out.println("Country #" + maxCountry.getId() +
+				" is chosen to put " + bonusArmies + " soldiers");
 	}
 
 	@Override
