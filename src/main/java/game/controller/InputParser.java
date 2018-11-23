@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import game.Player;
+import game.state.Attack;
 import game.state.GameState;
 import game.world.Continent;
 import game.world.Country;
@@ -135,9 +136,23 @@ public class InputParser {
 		return;
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws CloneNotSupportedException {
 		InputParser parser = new InputParser();
 		GameState state = parser.parse("config.txt");
 		System.out.println("Finished Parsing");
+		System.out.println("Printing some values to validate parsing: \n Turn: " + state.getPlayerTurn());
+		GameState newState = (GameState)state.clone();
+		ArrayList<Country> ownedCountries = newState.getOwnedCountries();
+		System.out.println("Ownded Countries: " + ownedCountries.get(0).getIndex() + ", " + ownedCountries.get(1).getIndex());
+		ArrayList<Attack> attacks = newState.getLegalCountriesAttack();
+		for (Attack atk : attacks) {
+			System.out.println("attacking country: " + atk.getAttackingCountry().getIndex() + ", attacked countries: " + atk.getAttackedCountry().getIndex());
+		}
+		System.out.println("Terminal State: " + newState.isTerminal());
+		System.out.println("Won Player: " + newState.getWonPlayer());
+		System.out.println("Lost Player: " + newState.getLostPlayer());
+		
+//		System.out.println;
+//		System.out.println("Finished Parsing");
 	}
 }
