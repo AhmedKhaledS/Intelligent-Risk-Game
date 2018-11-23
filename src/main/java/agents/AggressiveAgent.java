@@ -56,8 +56,8 @@ public class AggressiveAgent implements Agent {
 		System.out.println("Country #" + maxCountry.getId() + " is chosen to put " + bonusArmies + " soldiers");
 
 		// Perform the actual changes
-		 ArmyPlacement placement = new ArmyPlacement(maxCountry, bonusArmies);
-		 state.placeArmy(placement);
+		ArmyPlacement placement = new ArmyPlacement(maxCountry, bonusArmies);
+		state.placeArmy(placement);
 
 	}
 
@@ -67,9 +67,20 @@ public class AggressiveAgent implements Agent {
 		// Get the legal attacks from the "GameState" class
 		ArrayList<Attack> attacks = state.getLegalCountriesAttack();
 
+		// Check for the possibility of the existence of attack
 		if (attacks.size() == 0) {
+
+			// Sending "NULL" attack to the "GameState"
+			Attack attack = new Attack(null, null);
+			state.applyAttack(attack);
+
+			// Setting "prevAttack" to false denoting failure of attack
+			prevAttack = false;
+
 			return;
 		}
+
+		prevAttack = true;
 
 		// Get the attack with the maximum damage of soldiers
 		Continent maxContinent = getMaxContinent(state, attacks);

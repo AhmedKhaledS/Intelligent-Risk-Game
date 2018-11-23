@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import agents.Agent;
 import agents.AggressiveAgent;
+import agents.PassiveAgent;
 import game.Player;
 import game.state.GameState;
 import game.world.Continent;
@@ -159,29 +160,40 @@ public class InputParser {
 
 		// 2. Check the first player ^_^
 		// 2.1. His name ^_^
+		System.out.println("POINT 2");
 		System.out.println(state.getPlayerTurn());
 		// 2.2. His countries ^_^
 		ArrayList<Country> ownedCountries = state.getOwnedCountries();
 		for (int i = 0; i < ownedCountries.size(); i++) {
-			System.out.println("Ownded Countries 1: " + ownedCountries.get(i).getId() + " "
-					+ ownedCountries.get(0).getArmiesSize());
+			System.out.println("Ownded Countries: " + ownedCountries.get(i).getId() + " "
+					+ ownedCountries.get(i).getArmiesSize());
 		}
 
-		Agent agent = new AggressiveAgent();
+		// 3. Create our simple agent
+		Agent agent = new PassiveAgent();
+		
+		// 3.1. Simple Agent: PLACE
 		agent.place(state);
+		// 3.1.1 His name ^_^
+		System.out.println("POINT 3.1");
 		System.out.println(state.getPlayerTurn());
+		// 3.1.1 His countries ^_^
 		ownedCountries = state.getOwnedCountries();
 		for (int i = 0; i < ownedCountries.size(); i++) {
-			System.out.println("Ownded Countries 1: " + ownedCountries.get(i).getId() + " "
-					+ ownedCountries.get(0).getArmiesSize());
+			System.out.println("Ownded Countries: " + ownedCountries.get(i).getId() + " "
+					+ ownedCountries.get(i).getArmiesSize());
 		}
 
+		// 3.2. Simple Agent: ATTACK
 		agent.attack(state);
+		// 3.2.1 His name ^_^
+		System.out.println("POINT 3.2");
 		System.out.println(state.getPlayerTurn());
+		// 3.1.1 His countries ^_^
 		ownedCountries = state.getOwnedCountries();
 		for (int i = 0; i < ownedCountries.size(); i++) {
-			System.out.println("Ownded Countries 1: " + ownedCountries.get(i).getId() + " "
-					+ ownedCountries.get(0).getArmiesSize());
+			System.out.println("Ownded Countries: " + ownedCountries.get(i).getId() + " "
+					+ ownedCountries.get(i).getArmiesSize());
 		}
 
 		// System.out.println;

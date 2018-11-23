@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import agents.util.BounsCalculator;
 import game.state.ArmyPlacement;
+import game.state.Attack;
 import game.state.GameState;
 import game.util.CountriesPlacementComparator;
 import game.world.Country;
@@ -42,9 +43,8 @@ public class PassiveAgent implements Agent {
 			}
 		}
 
-		System.out.println("Country #" + minCountry.getId() +
-				" is chosen to put " + bonusArmies + " soldiers");
-		
+		System.out.println("Country #" + minCountry.getId() + " is chosen to put " + bonusArmies + " soldiers");
+
 		// Perform the actual changes
 		ArmyPlacement placement = new ArmyPlacement(minCountry, bonusArmies);
 		state.placeArmy(placement);
@@ -54,6 +54,10 @@ public class PassiveAgent implements Agent {
 	@Override
 	public void attack(GameState state) {
 		// I will not attack ^_^
+
+		// Sending "NULL" attack to the "GameState"
+		Attack attack = new Attack(null, null);
+		state.applyAttack(attack);
 	}
 
 	@Override
