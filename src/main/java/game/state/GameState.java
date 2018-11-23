@@ -19,13 +19,6 @@ public class GameState implements Cloneable, Comparable<GameState> {
 	 private Integer depth = 0;
 	 private boolean prevTurnAttacked;
 	 
-	public boolean isPrevTurnAttacked() {
-		return prevTurnAttacked;
-	}
-
-	public void setPrevTurnAttacked(boolean prevTurnAttacked) {
-		this.prevTurnAttacked = prevTurnAttacked;
-	}
 	
 	 public boolean isLegalAttack(Attack attack) {
 		 if (attack.getAttackingCountry() == null || attack.getAttackedCountry() == null) {
@@ -50,7 +43,7 @@ public class GameState implements Cloneable, Comparable<GameState> {
 		 if (!isLegalAttack(attack)) {
 			 throw new RuntimeException("Cannot apply this (invalid) attack!");
 		 }
-		 
+		 Player attackingPlayer = playerTurn;
 		 if (playerTurn == Player.PLAYER_1) {
 			 playerTurn = Player.PLAYER_2;
 		 } else {
@@ -66,7 +59,7 @@ public class GameState implements Cloneable, Comparable<GameState> {
 		 Country attackingCountry = this.worldState.getCountryById(attack.getAttackingCountry().getId());
 		 attackingCountry.setArmiesSize(attackingCountry.getArmiesSize()
 				 						- attackedCountry.getArmiesSize() - attack.getArmyTransferCount());
-		 attackedCountry.setOwner(playerTurn);
+		 attackedCountry.setOwner(attackingPlayer);
 		 attackedCountry.setArmiesSize(attack.getArmyTransferCount());		
 	 }
 
@@ -203,6 +196,7 @@ public class GameState implements Cloneable, Comparable<GameState> {
 	    return false;
 	}
 	
+	
 	public World getWorldState() {
 		return worldState;
 	}
@@ -241,6 +235,14 @@ public class GameState implements Cloneable, Comparable<GameState> {
 
 	public void setPreviousState(GameState previousState) {
 		this.previousState = previousState;
+	}
+	
+	public boolean isPrevTurnAttacked() {
+		return prevTurnAttacked;
+	}
+
+	public void setPrevTurnAttacked(boolean prevTurnAttacked) {
+		this.prevTurnAttacked = prevTurnAttacked;
 	}
 	
 	
