@@ -1,6 +1,5 @@
 package agents;
 
-
 import game.state.GameState;
 
 public class HumanAgent implements Agent {
@@ -9,7 +8,7 @@ public class HumanAgent implements Agent {
 
 	@Override
 	public void takeTurn(GameState state) {
-		// TODO Auto-generated method stub	
+		// TODO Auto-generated method stub
 	}
 
 	@Override
