@@ -47,7 +47,7 @@ public class Attack implements Cloneable{
 	
 	public Attack clone() {
 		Attack clonedAttack = new Attack(attackingCountry.clone(), attackedCountry.clone());
-		clonedAttack.setPlacement(placement.clone());
+		clonedAttack.setPlacement(placement == null ? null : placement.clone());
 		clonedAttack.setArmyTransferCount(armyTransferCount);
 		return clonedAttack;
 	}

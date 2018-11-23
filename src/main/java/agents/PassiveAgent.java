@@ -13,8 +13,8 @@ public class PassiveAgent implements Agent {
 
 	@Override
 	public void takeTurn(GameState state) {
-		// TODO Auto-generated method stub
-
+		place(state);
+		attack(state);
 	}
 
 	private CountriesPlacementComparator comparator;
