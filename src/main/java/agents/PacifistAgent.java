@@ -2,6 +2,7 @@ package agents;
 
 import java.util.ArrayList;
 
+import agents.util.BounsCalculator;
 import game.state.Attack;
 import game.state.GameState;
 import game.util.CountriesPlacementComparator;
@@ -16,13 +17,20 @@ public class PacifistAgent implements Agent {
 	}
 
 	private CountriesPlacementComparator comparator;
+	private BounsCalculator calculator;
+	boolean prevAttack;
 
 	public PacifistAgent() {
 		comparator = CountriesPlacementComparator.getInstance();
+		calculator = BounsCalculator.getInstance();
+		prevAttack = false;
 	}
 
 	@Override
 	public void place(GameState state) {
+		
+		// Initially, Get the number of bonus armies
+		int bonusArmies = calculator.getBonus(state, prevAttack);
 
 		// Get the owned countries from the "GameState" class
 		ArrayList<Country> countries = state.getOwnedCountries();
@@ -36,7 +44,12 @@ public class PacifistAgent implements Agent {
 			}
 		}
 
-		System.out.println("Country #" + minCountry.getId() + " is chosen");
+		System.out.println("Country #" + minCountry.getId() +
+				" is chosen to put " + bonusArmies + " soldiers");
+		
+		// Perform the actual changes
+//		ArmyPlacement placement = new ArmyPlacement(minCountry, bonusArmies);
+//		state.placeArmy(placement);
 
 	}
 
@@ -46,9 +59,13 @@ public class PacifistAgent implements Agent {
 		// Get the legal attacks from the "GameState" class
 		ArrayList<Attack> attacks = state.getLegalCountriesAttack();
 
+		// Check for the possibility of the existence of attack
 		if (attacks.size() == 0) {
+			prevAttack = false;
 			return;
 		}
+
+		prevAttack = true;
 
 		// Get the attack with the minimum damage of soldiers
 		Country playerCountry = attacks.get(0).getAttackingCountry();
@@ -88,6 +105,11 @@ public class PacifistAgent implements Agent {
 
 		System.out.println("Country #" + playerCountry.getId() +
 				" is attacking Country #" + opponentCountry.getId());
+		
+		// Perform the actual changes
+		Attack attack = new Attack(playerCountry, opponentCountry);
+		attack.setArmyTransferCount((playerCountry.getArmiesSize() - opponentCountry.getArmiesSize()) / 2);
+
 	}
 
 	@Override
