@@ -23,8 +23,11 @@ public class GameState implements Cloneable, Comparable<GameState> {
 			throw new RuntimeException("Cannot apply this (invalid) attack!");
 		}
 		// Placement is already done.
-		this.worldState.getCountryById(attack.getAttackedCountry().getId()).setOwner(playerTurn);
-		this.worldState.getCountryById(attack.getAttackedCountry().getId()).setArmiesSize(attack.getArmyTransferCount());		
+		Country attackedCountry = this.worldState.getCountryById(attack.getAttackedCountry().getId());
+		Country attackingCountry = this.worldState.getCountryById(attack.getAttackingCountry().getId());
+		attackingCountry.setArmiesSize(attackingCountry.getArmiesSize() - attackedCountry.getArmiesSize() - attack.getArmyTransferCount());
+		attackedCountry.setOwner(playerTurn);
+		attackedCountry.setArmiesSize(attack.getArmyTransferCount());		
 		this.depth++;
 		if (playerTurn == Player.PLAYER_1) {
 			playerTurn = Player.PLAYER_2;
@@ -34,7 +37,6 @@ public class GameState implements Cloneable, Comparable<GameState> {
 	 }
 	
 	
-	 
 	 public boolean isLegalAttack(Attack attack) {
 		 if (attack.getAttackingCountry().getOwner() == attack.getAttackedCountry().getOwner()) {
 			 return false;
