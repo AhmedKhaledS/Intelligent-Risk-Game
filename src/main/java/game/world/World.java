@@ -1,8 +1,11 @@
 package game.world;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
-public class World {
+import game.util.CountriesComparator;
+
+public class World implements Comparable<World> {
 
 	private ArrayList<Continent> continents;
 	private Graph graph;
@@ -27,6 +30,30 @@ public class World {
 		this.graph = graph;
 	}
 	
-	
+	@Override
+	public int compareTo(World arg0) {
+		ArrayList<Continent> continentsA = this.getContinents();
+		ArrayList<Continent> continentsB = arg0.getContinents();
+		Collections.sort(continentsA, CountriesComparator.getInstance());
+		Collections.sort(continentsB, CountriesComparator.getInstance());
+		if (continentsA.equals(continentsB) && continentBonus == continent.getContinentBonus()) {
+			return 0;
+		}
+		return -1;
+	}
+
+	public boolean equals(Object o) {
+	    if (o == this) {
+	      return true;
+	    } 
+	    
+	    if (!(o instanceof Continent)) {
+	      return false;
+	    }
+	    
+	    return compareTo((Continent)o) == 0;
+	 }
+
+
 	
 }

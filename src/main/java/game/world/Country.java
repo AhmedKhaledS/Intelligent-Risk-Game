@@ -1,7 +1,5 @@
 package game.world;
 
-import java.util.Comparator;
-
 import game.Player;
 
 public class Country implements Comparable<Country> {
@@ -61,8 +59,7 @@ public class Country implements Comparable<Country> {
 	      return false;
 	    }
 	    
-	    Country comparedCountry = (Country)o;
-	    return comparedCountry.getId() == id; 
-	  }
+	    return compareTo((Country) o) == 0;
+	 }
 
 }

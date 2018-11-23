@@ -55,10 +55,22 @@ public class Continent implements Comparable<Continent> {
 		ArrayList<Country> countriesB = continent.getCountires();
 		Collections.sort(countriesA, CountriesComparator.getInstance());
 		Collections.sort(countriesB, CountriesComparator.getInstance());
-		if (countriesA.equals(countriesB)) {
+		if (countriesA.equals(countriesB) && continentBonus == continent.getContinentBonus()) {
 			return 0;
 		}
 		return -1;
 	}
+	
+	public boolean equals(Object o) {
+	    if (o == this) {
+	      return true;
+	    } 
+	    
+	    if (!(o instanceof Continent)) {
+	      return false;
+	    }
+	    
+	    return compareTo((Continent)o) == 0;
+	 }
 	
 }
