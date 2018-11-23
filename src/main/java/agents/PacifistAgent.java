@@ -3,6 +3,7 @@ package agents;
 import java.util.ArrayList;
 
 import agents.util.BounsCalculator;
+import game.state.ArmyPlacement;
 import game.state.Attack;
 import game.state.GameState;
 import game.util.CountriesPlacementComparator;
@@ -48,8 +49,8 @@ public class PacifistAgent implements Agent {
 				" is chosen to put " + bonusArmies + " soldiers");
 		
 		// Perform the actual changes
-//		ArmyPlacement placement = new ArmyPlacement(minCountry, bonusArmies);
-//		state.placeArmy(placement);
+		ArmyPlacement placement = new ArmyPlacement(minCountry, bonusArmies);
+		state.placeArmy(placement);
 
 	}
 
@@ -102,14 +103,18 @@ public class PacifistAgent implements Agent {
 				}
 			}
 		}
+		
+		
+		int transfereCount = (playerCountry.getArmiesSize() - opponentCountry.getArmiesSize()) / 2;
 
 		System.out.println("Country #" + playerCountry.getId() +
-				" is attacking Country #" + opponentCountry.getId());
+				" is attacking Country #" + opponentCountry.getId() +
+				" with transfere of " + transfereCount);
 		
 		// Perform the actual changes
 		Attack attack = new Attack(playerCountry, opponentCountry);
-		attack.setArmyTransferCount((playerCountry.getArmiesSize() - opponentCountry.getArmiesSize()) / 2);
-
+		attack.setArmyTransferCount(transfereCount);
+		state.applyAttack(attack);
 	}
 
 	@Override

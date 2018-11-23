@@ -8,10 +8,7 @@ import java.util.ArrayList;
 
 import agents.Agent;
 import agents.AggressiveAgent;
-import agents.PacifistAgent;
-import agents.PassiveAgent;
 import game.Player;
-import game.state.Attack;
 import game.state.GameState;
 import game.world.Continent;
 import game.world.Country;
@@ -20,11 +17,10 @@ import game.world.World;
 
 public class InputParser {
 
-	
 	public InputParser() {
-		
+
 	}
-	
+
 	public GameState parse(String configFileName) {
 		int index = 0;
 		ArrayList<String> fileLines = readFileLines(configFileName);
@@ -48,19 +44,19 @@ public class InputParser {
 		state.setPlayerTurn(Player.PLAYER_1);
 		return state;
 	}
-	
+
 	private ArrayList<String> readFileLines(String configFileName) {
 		BufferedReader bufferedReader;
 		ArrayList<String> lines = new ArrayList<String>();
 		try {
 			bufferedReader = new BufferedReader(new FileReader(configFileName));
 			String line = "";
-			while((line) != null) {
-				String line_read =  bufferedReader.readLine();
-			    if (line_read != null) {
-			    	lines.add(line_read);
-			    }
-			    line = line_read;
+			while ((line) != null) {
+				String line_read = bufferedReader.readLine();
+				if (line_read != null) {
+					lines.add(line_read);
+				}
+				line = line_read;
 			}
 			bufferedReader.close();
 		} catch (FileNotFoundException e) {
@@ -70,14 +66,14 @@ public class InputParser {
 		}
 		return lines;
 	}
-	
+
 	private void initializeAdjacencyList(ArrayList<ArrayList<Integer>> list, int n) {
 		for (int i = 0; i < n + 1; i++) {
 			list.add(new ArrayList<>());
 		}
 		return;
 	}
-	
+
 	private ArrayList<Country> createCountriesList(ArrayList<String> lines, int startIndex, int vertices) {
 		ArrayList<Country> countries = new ArrayList<>();
 		for (int i = startIndex, j = 1; i < startIndex + vertices; i++, j++) {
@@ -92,21 +88,21 @@ public class InputParser {
 		}
 		return countries;
 	}
-	
-	private ArrayList<ArrayList<Integer>> buildAdjacencyList(ArrayList<String> lines, int startIndex, int edges
-			,int verticesCount) {
+
+	private ArrayList<ArrayList<Integer>> buildAdjacencyList(ArrayList<String> lines, int startIndex, int edges,
+			int verticesCount) {
 		ArrayList<ArrayList<Integer>> adjacencyList = new ArrayList<>();
 		initializeAdjacencyList(adjacencyList, verticesCount);
 		for (int i = startIndex; i < startIndex + edges; i++) {
 			String[] endpointStrings = (lines.get(i)).split(" ");
 			Integer from = Integer.parseInt(endpointStrings[0]);
-			Integer to  = Integer.parseInt(endpointStrings[1]);
+			Integer to = Integer.parseInt(endpointStrings[1]);
 			adjacencyList.get(from).add(to);
 			adjacencyList.get(to).add(from);
 		}
 		return adjacencyList;
 	}
-	
+
 	private ArrayList<Continent> buildContinentsList(ArrayList<String> lines, int startIndex, int continentsCount,
 			ArrayList<Country> countries) {
 		int index = 1;
@@ -130,34 +126,65 @@ public class InputParser {
 		}
 		return continents;
 	}
-	
+
 	private void buildCountriesMap(ArrayList<Country> countries, Graph graph) {
 		for (Country country : countries) {
 			graph.setCountryIndex(country, country.getId());
 		}
 		return;
 	}
-	
+
 	public static void main(String[] args) throws CloneNotSupportedException {
+		// InputParser parser = new InputParser();
+		// GameState state = parser.parse("config.txt");
+		// System.out.println("Finished Parsing");
+		// System.out.println("Printing some values to validate parsing: \n Turn: " +
+		// state.getPlayerTurn());
+		// GameState newState = (GameState)state.clone();
+		// ArrayList<Country> ownedCountries = newState.getOwnedCountries();
+		// System.out.println("Ownded Countries: " + ownedCountries.get(0).getId() + ",
+		// " + ownedCountries.get(1).getId());
+		// ArrayList<Attack> attacks = newState.getLegalCountriesAttack();
+		// for (Attack atk : attacks) {
+		// System.out.println("attacking country: " + atk.getAttackingCountry().getId()
+		// + ", attacked countries: " + atk.getAttackedCountry().getId());
+		// }
+		// System.out.println("Terminal State: " + newState.isTerminal());
+		// System.out.println("Won Player: " + newState.getWonPlayer());
+		// System.out.println("Lost Player: " + newState.getLostPlayer());
+
+		// 1. Create the initial game state...
 		InputParser parser = new InputParser();
 		GameState state = parser.parse("config.txt");
-		System.out.println("Finished Parsing");
-		System.out.println("Printing some values to validate parsing: \n Turn: " + state.getPlayerTurn());
-		GameState newState = (GameState)state.clone();
-		ArrayList<Country> ownedCountries = newState.getOwnedCountries();
-		System.out.println("Ownded Countries: " + ownedCountries.get(0).getId() + ", " + ownedCountries.get(1).getId());
-		ArrayList<Attack> attacks = newState.getLegalCountriesAttack();
-		for (Attack atk : attacks) {
-			System.out.println("attacking country: " + atk.getAttackingCountry().getId() + ", attacked countries: " + atk.getAttackedCountry().getId());
+
+		// 2. Check the first player ^_^
+		// 2.1. His name ^_^
+		System.out.println(state.getPlayerTurn());
+		// 2.2. His countries ^_^
+		ArrayList<Country> ownedCountries = state.getOwnedCountries();
+		for (int i = 0; i < ownedCountries.size(); i++) {
+			System.out.println("Ownded Countries 1: " + ownedCountries.get(i).getId() + " "
+					+ ownedCountries.get(0).getArmiesSize());
 		}
-		System.out.println("Terminal State: " + newState.isTerminal());
-		System.out.println("Won Player: " + newState.getWonPlayer());
-		System.out.println("Lost Player: " + newState.getLostPlayer());
+
 		Agent agent = new AggressiveAgent();
+		agent.place(state);
+		System.out.println(state.getPlayerTurn());
+		ownedCountries = state.getOwnedCountries();
+		for (int i = 0; i < ownedCountries.size(); i++) {
+			System.out.println("Ownded Countries 1: " + ownedCountries.get(i).getId() + " "
+					+ ownedCountries.get(0).getArmiesSize());
+		}
+
 		agent.attack(state);
-		
-		
-//		System.out.println;
-//		System.out.println("Finished Parsing");
+		System.out.println(state.getPlayerTurn());
+		ownedCountries = state.getOwnedCountries();
+		for (int i = 0; i < ownedCountries.size(); i++) {
+			System.out.println("Ownded Countries 1: " + ownedCountries.get(i).getId() + " "
+					+ ownedCountries.get(0).getArmiesSize());
+		}
+
+		// System.out.println;
+		// System.out.println("Finished Parsing");
 	}
 }

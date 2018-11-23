@@ -29,11 +29,11 @@ public class GameState implements Cloneable, Comparable<GameState> {
 		attackedCountry.setOwner(playerTurn);
 		attackedCountry.setArmiesSize(attack.getArmyTransferCount());		
 		this.depth++;
-		if (playerTurn == Player.PLAYER_1) {
-			playerTurn = Player.PLAYER_2;
-		} else {
-			playerTurn = Player.PLAYER_1;
-		}
+//		if (playerTurn == Player.PLAYER_1) {
+//			playerTurn = Player.PLAYER_2;
+//		} else {
+//			playerTurn = Player.PLAYER_1;
+//		}
 	 }
 	
 	
