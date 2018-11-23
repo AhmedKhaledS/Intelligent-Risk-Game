@@ -6,7 +6,7 @@ import java.util.Collections;
 import game.util.ContinentsComparator;
 import game.util.CountriesComparator;
 
-public class World implements Comparable<World> {
+public class World implements Comparable<World>, Cloneable {
 
 	private ArrayList<Continent> continents;
 	private Graph graph;
@@ -35,6 +35,7 @@ public class World implements Comparable<World> {
 	public int compareTo(World arg0) {
 		ArrayList<Continent> continentsA = this.getContinents();
 		ArrayList<Continent> continentsB = arg0.getContinents();
+		System.out.println("size of continentsA: " + continentsA.size() + ", size of continentsB: " + continentsB.size());;
 		Collections.sort(continentsA, ContinentsComparator.getInstance());
 		Collections.sort(continentsB, ContinentsComparator.getInstance());
 		if (continentsA.equals(continentsB)) {
@@ -44,9 +45,6 @@ public class World implements Comparable<World> {
 	}
 
 	public boolean equals(Object o) {
-	    if (o == this) {
-	      return true;
-	    } 
 	    
 	    if (!(o instanceof World)) {
 	      return false;
@@ -55,6 +53,16 @@ public class World implements Comparable<World> {
 	    return compareTo((World)o) == 0;
 	 }
 
+	public World clone() {
+		World clonedWorld = new World();
+		ArrayList<Continent> clonedContinents = new ArrayList<>();
+		for (Continent c : continents) {
+			clonedContinents.add(c.clone());
+		}
+		clonedWorld.setContinents(clonedContinents);
+		clonedWorld.setGraph(graph == null ? null : graph.clone());
+		return clonedWorld;
+	}
 
 	
 }

@@ -4,10 +4,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Graph {
+public class Graph implements Cloneable {
 	
 	private ArrayList<ArrayList<Integer>> adjacencyList;
 	private Map<Integer, Country> countriesIndex;
+
+	public Map<Integer, Country> getCountriesIndex() {
+		return countriesIndex;
+	}
+
+	public void setCountriesIndex(Map<Integer, Country> countriesIndex) {
+		this.countriesIndex = countriesIndex;
+	}
 
 	public Graph() {
 		adjacencyList = new ArrayList<>();
@@ -33,4 +41,28 @@ public class Graph {
 	public void setCountryIndex(Country country, int index) {
 		this.countriesIndex.put(index, country);
 	}
+	
+	public Graph clone() {
+		Graph clonedGraph = new Graph();
+		ArrayList<ArrayList<Integer>> clonedAdjList = new ArrayList<>();
+		for (ArrayList<Integer> adjacentList : adjacencyList) {
+			clonedAdjList.add(new ArrayList<>());
+			for (Integer id : adjacentList) {
+				clonedAdjList.get(clonedAdjList.size()-1).add(id);
+			}
+		}
+		clonedGraph.setAdjacencyList(clonedAdjList);
+		clonedGraph.setCountriesIndex(copy(countriesIndex));
+		return clonedGraph;
+	}
+
+	private Map<Integer, Country> copy(Map<Integer, Country> original)
+	{
+	    HashMap<Integer, Country> copy = new HashMap<>();
+	    for (Map.Entry<Integer, Country> entry : original.entrySet()) {
+	        copy.put(entry.getKey(), entry.getValue().clone());
+	    }
+	    return copy;
+	}
+	
 }

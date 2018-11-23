@@ -151,7 +151,5 @@ public class InputParser {
 		System.out.println("Won Player: " + newState.getWonPlayer());
 		System.out.println("Lost Player: " + newState.getLostPlayer());
 		
-//		System.out.println;
-//		System.out.println("Finished Parsing");
 	}
 }
