@@ -154,7 +154,6 @@ public class InputParser {
 		System.out.println("Terminal State: " + newState.isTerminal());
 		System.out.println("Won Player: " + newState.getWonPlayer());
 		System.out.println("Lost Player: " + newState.getLostPlayer());
-		
 		Agent agent = new AggressiveAgent();
 		agent.attack(state);
 		

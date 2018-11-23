@@ -2,7 +2,7 @@ package game.world;
 
 import game.Player;
 
-public class Country implements Comparable<Country> {
+public class Country implements Comparable<Country>, Cloneable {
 	
 	private Player owner;
 	private int armySize;
@@ -61,5 +61,14 @@ public class Country implements Comparable<Country> {
 	    
 	    return compareTo((Country) o) == 0;
 	 }
+	
+	public Country clone() {
+		Country clonedCountry = new Country();
+		clonedCountry.setId(id);
+		clonedCountry.setOwner(owner);
+		clonedCountry.setArmiesSize(armySize);
+		clonedCountry.setContinent(continent);
+		return clonedCountry;
+	}
 
 }

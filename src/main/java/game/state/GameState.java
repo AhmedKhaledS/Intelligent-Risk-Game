@@ -1,6 +1,8 @@
 package game.state;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import game.Player;
 import game.world.Continent;
@@ -77,12 +79,8 @@ public class GameState implements Cloneable, Comparable<GameState> {
 		if (!isLegalAttack(attack))
 			return null; 
 		GameState newState = null;
-		try {
-			newState = (GameState)this.clone();
-			newState.applyAttack(attack);
-		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
-		}
+		newState = (GameState)this.clone();
+		newState.applyAttack(attack);
 		return newState;
 	}
 	
@@ -142,8 +140,11 @@ public class GameState implements Cloneable, Comparable<GameState> {
 		return null;
 	}
 	
-	public Object clone() throws CloneNotSupportedException {
-		return (GameState)super.clone();
+	public GameState clone() {
+		GameState clonedState = new GameState();
+		clonedState.setPlayerTurn(playerTurn);
+		clonedState.setWorldState(worldState.clone());
+		return clonedState;
 	}
 
 	public World getWorldState() {
@@ -195,5 +196,77 @@ public class GameState implements Cloneable, Comparable<GameState> {
 	    
 	    return compareTo((GameState)o) == 0;
 	 }
+	
+	public static void main(String[] args) throws CloneNotSupportedException {
+		Country c1 = new Country();
+		c1.setId(1);
+		c1.setOwner(Player.PLAYER_1);
+		Country c2 = new Country();
+		c2.setId(2);
+		c2.setOwner(Player.PLAYER_1);
+		Country c3 = new Country();
+		c3.setId(3);
+		c3.setOwner(Player.PLAYER_2);
+		Country c4 = new Country();
+		c4.setId(4);
+		c4.setOwner(Player.PLAYER_2);
+		
+		Continent cn1 = new Continent();
+		cn1.setContinentBonus(10);
+		cn1.setContinentID(1);
+		ArrayList<Country> countries = new ArrayList<>();
+		countries.add(c1);
+		countries.add(c2);
+		cn1.setCountires(countries);
+		
+		c1.setContinent(cn1);
+		c2.setContinent(cn1);
+		
+		Continent cn2 = new Continent();
+		cn2.setContinentBonus(20);
+		cn2.setContinentID(2);
+		ArrayList<Country> countries2 = new ArrayList<>();
+		countries2.add(c3);
+		countries2.add(c4);
+		cn2.setCountires(countries2);
+		
+		c3.setContinent(cn2);
+		c4.setContinent(cn2);
+		
+		World world = new World();
+		ArrayList<Continent> continents1 = new ArrayList<>();
+		continents1.add(cn1);
+		continents1.add(cn2);
+		world.setContinents(continents1);
+		Graph g = new Graph();
+		ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
+		// Adj:
+		// 0 1 2
+		// 1 3 4
+		adj.add(new ArrayList<>());
+		adj.get(0).add(1);
+		adj.get(0).add(2);
+		adj.add(new ArrayList<>());
+		adj.get(1).add(3);
+		adj.get(1).add(4);
+		g.setAdjacencyList(adj);
+		Map<Integer, Country> mp = new HashMap<>();
+		mp.put(1, c1);
+		mp.put(2, c2);
+		g.setCountriesIndex(mp);
+		world.setGraph(g);
+		GameState gs = new GameState();
+		gs.setWorldState(world);
+		gs.setPlayerTurn(Player.PLAYER_1);
+
+		GameState clone = (GameState) gs.clone();
+		System.out.println("gs1: " + gs + ",  gs2: " + clone);
+//		clone.getWorldState().setContinents(null);
+		System.out.println("1) size of continentsA: " + gs.getWorldState().getContinents().size() + ", size of continentsB: " + clone.getWorldState().getContinents().size());
+		clone.getWorldState().getContinents().get(1).setContinentID(2);;
+		System.out.println("2) size of continentsA: " + gs.getWorldState().getContinents().size() + ", size of continentsB: " + clone.getWorldState().getContinents().size());
+
+		System.out.println("Equal: " + gs.equals((Object)clone));
+	}
 	
 }

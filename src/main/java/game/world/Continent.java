@@ -6,7 +6,7 @@ import java.util.Collections;
 import game.Player;
 import game.util.CountriesComparator;
 
-public class Continent implements Comparable<Continent> {
+public class Continent implements Comparable<Continent>, Cloneable {
 	
 	private int continentBonus;
 	private ArrayList<Country> countries;
@@ -72,9 +72,6 @@ public class Continent implements Comparable<Continent> {
 	}
 	
 	public boolean equals(Object o) {
-	    if (o == this) {
-	      return true;
-	    } 
 	    
 	    if (!(o instanceof Continent)) {
 	      return false;
@@ -82,5 +79,17 @@ public class Continent implements Comparable<Continent> {
 	    
 	    return compareTo((Continent)o) == 0;
 	 }
+	
+	public Continent clone() {
+		Continent clonedContinent = new Continent();
+		clonedContinent.setContinentID(continentID);
+		clonedContinent.setContinentBonus(continentBonus);
+		ArrayList<Country> clonedCountries = new ArrayList<>();
+		for (Country c : countries) {
+			clonedCountries.add(c.clone());
+		}
+		clonedContinent.setCountires(clonedCountries);
+		return clonedContinent;
+	}
 	
 }
