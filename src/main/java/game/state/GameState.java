@@ -8,7 +8,7 @@ import game.world.Country;
 import game.world.Graph;
 import game.world.World;
 
-public class GameState implements Cloneable {
+public class GameState implements Cloneable, Comparable<GameState> {
 	
 	 private World worldState;
 	 private Player playerTurn;
@@ -24,8 +24,8 @@ public class GameState implements Cloneable {
 	 
 	 public boolean isLegalAttack(Attack attack) {
 		 
-		 for (int adjacentCountryId : graph.getAdjacentCountries(attack.getAttackingCountry().getIndex())) {
-			 if (attack.getAttackedCountry().getIndex() == adjacentCountryId
+		 for (int adjacentCountryId : graph.getAdjacentCountries(attack.getAttackingCountry().getId())) {
+			 if (attack.getAttackedCountry().getId() == adjacentCountryId
 					  && attack.getAttackingCountry().getArmiesSize() > attack.getAttackedCountry().getArmiesSize() + 1) {
 				 return true;
 			 }
@@ -36,7 +36,7 @@ public class GameState implements Cloneable {
 	public ArrayList<Attack> getLegalCountriesAttack() {
 		ArrayList<Attack> adjacentOpponentCountries = new ArrayList<>();
 		for (Country attackingCountry : getOwnedCountries()) {
-			for (int attackedCountryId: graph.getAdjacentCountries(attackingCountry.getIndex())) {
+			for (int attackedCountryId: graph.getAdjacentCountries(attackingCountry.getId())) {
 				Country attackedCountry = graph.getCountryByIndex(attackedCountryId);
 				if (attackedCountry.getOwner() != playerTurn) {
 					adjacentOpponentCountries.add(new Attack(attackingCountry, attackedCountry));
@@ -141,6 +141,17 @@ public class GameState implements Cloneable {
 
 	public void setGraph(Graph graph) {
 		this.graph = graph;
+	}
+
+	/**
+	 * This function compares 2 game state and returns 0 if they are equal.
+	 * @param state the compared game state.
+	 * @return 0 if they are equal. O.W, it returns +ve or -ve value.
+	 */
+	@Override
+	public int compareTo(GameState state) {
+		
+		return 0;
 	}	
 	
 }

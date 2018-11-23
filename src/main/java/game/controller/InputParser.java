@@ -85,7 +85,7 @@ public class InputParser {
 			Integer armiesSize = Integer.parseInt(countryDescriptor[1]);
 			Country country = new Country();
 			country.setArmiesSize(armiesSize);
-			country.setIndex(j);
+			country.setId(j);
 			country.setOwner((playerID == 1 ? Player.PLAYER_1 : Player.PLAYER_2));
 			countries.add(country);
 		}
@@ -131,7 +131,7 @@ public class InputParser {
 	private void buildCountriesMap(ArrayList<Country> countries, Graph graph) {
 		int index = 0;
 		for (Country country : countries) {
-			graph.setCountryIndex(country, country.getIndex());
+			graph.setCountryIndex(country, country.getId());
 		}
 		return;
 	}
@@ -143,10 +143,10 @@ public class InputParser {
 		System.out.println("Printing some values to validate parsing: \n Turn: " + state.getPlayerTurn());
 		GameState newState = (GameState)state.clone();
 		ArrayList<Country> ownedCountries = newState.getOwnedCountries();
-		System.out.println("Ownded Countries: " + ownedCountries.get(0).getIndex() + ", " + ownedCountries.get(1).getIndex());
+		System.out.println("Ownded Countries: " + ownedCountries.get(0).getId() + ", " + ownedCountries.get(1).getId());
 		ArrayList<Attack> attacks = newState.getLegalCountriesAttack();
 		for (Attack atk : attacks) {
-			System.out.println("attacking country: " + atk.getAttackingCountry().getIndex() + ", attacked countries: " + atk.getAttackedCountry().getIndex());
+			System.out.println("attacking country: " + atk.getAttackingCountry().getId() + ", attacked countries: " + atk.getAttackedCountry().getId());
 		}
 		System.out.println("Terminal State: " + newState.isTerminal());
 		System.out.println("Won Player: " + newState.getWonPlayer());

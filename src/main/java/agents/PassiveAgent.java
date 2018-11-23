@@ -26,7 +26,7 @@ public class PassiveAgent implements Agent {
 		for (Country country : countries) {
 			int currValue = country.getArmiesSize();
 			if (currValue < minCountryValue) {
-				minCountryIndex = country.getIndex();
+				minCountryIndex = country.getId();
 				minCountryValue = currValue;
 			}
 		}
