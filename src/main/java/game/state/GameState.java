@@ -28,6 +28,10 @@ public class GameState implements Cloneable, Comparable<GameState> {
 	}
 	
 	 public boolean isLegalAttack(Attack attack) {
+		 if (attack.getAttackingCountry() == null || attack.getAttackedCountry() == null) {
+			 return false;
+		 }
+		 
 		 if (attack.getAttackingCountry().getOwner() == attack.getAttackedCountry().getOwner()) {
 			 return false;
 		 }
