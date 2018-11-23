@@ -2,7 +2,7 @@ package game.state;
 
 import game.world.Country;
 
-public class ArmyPlacement {
+public class ArmyPlacement implements Cloneable {
 
 	private Country chosenCountry;
 	private int troopsCount;
@@ -24,5 +24,10 @@ public class ArmyPlacement {
 	}
 	public void setTroopsCount(int troopsCount) {
 		this.troopsCount = troopsCount;
+	}
+	
+	public ArmyPlacement clone() {
+		ArmyPlacement clonedArmyPlacement = new ArmyPlacement(chosenCountry.clone(), troopsCount);
+		return clonedArmyPlacement;
 	}
 }

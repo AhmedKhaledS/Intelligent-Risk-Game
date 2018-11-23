@@ -2,7 +2,7 @@ package game.state;
 
 import game.world.Country;
 
-public class Attack {
+public class Attack implements Cloneable{
 	private Country attackingCountry;
 	private Country attackedCountry;
 	private ArmyPlacement placement;
@@ -43,6 +43,13 @@ public class Attack {
 	
 	public void setAttackedCountry(Country attackedCountry) {
 		this.attackedCountry = attackedCountry;
+	}
+	
+	public Attack clone() {
+		Attack clonedAttack = new Attack(attackingCountry.clone(), attackedCountry.clone());
+		clonedAttack.setPlacement(placement.clone());
+		clonedAttack.setArmyTransferCount(armyTransferCount);
+		return clonedAttack;
 	}
 	
 	

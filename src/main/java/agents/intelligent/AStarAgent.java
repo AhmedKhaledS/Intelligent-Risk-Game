@@ -24,11 +24,15 @@ public class AStarAgent extends InformedSearchAgent {
 			ArrayList<Country> ownedCountries = current.getOwnedCountries();
 			ArrayList<Attack> possibleAttacks = new ArrayList<>();
 			for (Country country : ownedCountries) {
-//				current set Armies in country
-				ArrayList<Attack> legalAttacks = current.getLegalCountriesAttack();
+				/// TODO : ArmyPlacement placement = new ArmyPlacement(country, armies [from above]);
+				/// TODO : GameState virtual = forecastArmyPlacement(placement);
+				ArrayList<Attack> legalAttacks = current.getLegalCountriesAttack(); /// TODO : current -> virtual
+				/// TODO : Clone GameStates on the size of legalAttacks.
 				possibleAttacks.addAll(legalAttacks);
 			}
+			for (Attack possibleAttack : possibleAttacks) {
 				
+			}
 			
 			
 		}
