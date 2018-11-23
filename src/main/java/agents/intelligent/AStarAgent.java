@@ -8,6 +8,7 @@ import java.util.Set;
 import agents.Agent;
 import agents.intelligent.heuristics.Heuristic;
 import agents.util.BounsCalculator;
+import game.state.ArmyPlacement;
 import game.state.Attack;
 import game.state.GameState;
 import game.world.Country;
@@ -33,18 +34,16 @@ public class AStarAgent extends InformedSearchAgent {
 			}
 			int bonusArmies = bonusCalculator.getBonus(current, current.isPrevTurnAttacked());
 			ArrayList<Country> ownedCountries = current.getOwnedCountries();
-			ArrayList<Attack> possibleAttacks = new ArrayList<>();
 			for (Country country : ownedCountries) {
-				/// TODO : ArmyPlacement placement = new ArmyPlacement(country, armies [from above]);
-				/// TODO : GameState virtual = forecastArmyPlacement(placement);
-				ArrayList<Attack> legalAttacks = current.getLegalCountriesAttack(); /// TODO : current -> virtual
+				ArmyPlacement placement = new ArmyPlacement(country, bonusArmies);
+				GameState virtual = current.forecastArmyPlacement(placement);
+				ArrayList<Attack> possibleAttacks = virtual.getLegalCountriesAttack(); /// TODO : current -> virtual
 				/// TODO : Clone GameStates on the size of legalAttacks.
-				possibleAttacks.addAll(legalAttacks);
+				if (possibleAttacks.isEmpty()) {
+					Attack nonAttack = new Attack(null, null);
+					
+				}
 			}
-			for (Attack possibleAttack : possibleAttacks) {
-				
-			}
-			
 			
 		}
 	}
