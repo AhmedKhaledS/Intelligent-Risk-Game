@@ -151,7 +151,22 @@ public class GameState implements Cloneable, Comparable<GameState> {
 	@Override
 	public int compareTo(GameState state) {
 		
-		return 0;
+		if (worldState.equals(state.getWorldState()) && playerTurn == state.playerTurn) {
+			return 0;
+		}
+		return -1;
 	}	
+	
+	public boolean equals(Object o) {
+	    if (o == this) {
+	      return true;
+	    } 
+	    
+	    if (!(o instanceof GameState)) {
+	      return false;
+	    }
+	    
+	    return compareTo((GameState)o) == 0;
+	 }
 	
 }

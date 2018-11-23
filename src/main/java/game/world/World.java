@@ -3,6 +3,7 @@ package game.world;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import game.util.ContinentsComparator;
 import game.util.CountriesComparator;
 
 public class World implements Comparable<World> {
@@ -34,9 +35,9 @@ public class World implements Comparable<World> {
 	public int compareTo(World arg0) {
 		ArrayList<Continent> continentsA = this.getContinents();
 		ArrayList<Continent> continentsB = arg0.getContinents();
-		Collections.sort(continentsA, CountriesComparator.getInstance());
-		Collections.sort(continentsB, CountriesComparator.getInstance());
-		if (continentsA.equals(continentsB) && continentBonus == continent.getContinentBonus()) {
+		Collections.sort(continentsA, ContinentsComparator.getInstance());
+		Collections.sort(continentsB, ContinentsComparator.getInstance());
+		if (continentsA.equals(continentsB)) {
 			return 0;
 		}
 		return -1;
@@ -47,11 +48,11 @@ public class World implements Comparable<World> {
 	      return true;
 	    } 
 	    
-	    if (!(o instanceof Continent)) {
+	    if (!(o instanceof World)) {
 	      return false;
 	    }
 	    
-	    return compareTo((Continent)o) == 0;
+	    return compareTo((World)o) == 0;
 	 }
 
 
