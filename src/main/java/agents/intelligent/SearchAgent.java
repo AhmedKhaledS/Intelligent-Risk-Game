@@ -25,6 +25,7 @@ public abstract class SearchAgent implements Agent {
 	public void takeTurn(GameState state) {
 		// TODO : Place Army 
 		// TODO : Attack
+		// TODO : 
 //		Attack attack = moves.get(index);
 	}
 
