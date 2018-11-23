@@ -46,8 +46,8 @@ public class PassiveAgent implements Agent {
 				" is chosen to put " + bonusArmies + " soldiers");
 		
 		// Perform the actual changes
-//		ArmyPlacement placement = new ArmyPlacement(minCountry, bonusArmies);
-//		state.placeArmy(placement);
+		ArmyPlacement placement = new ArmyPlacement(minCountry, bonusArmies);
+		state.placeArmy(placement);
 
 	}
 

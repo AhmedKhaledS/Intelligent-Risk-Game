@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import agents.util.BounsCalculator;
 import game.Player;
+import game.state.ArmyPlacement;
 import game.state.Attack;
 import game.state.GameState;
 import game.util.CountriesPlacementComparator;
@@ -55,8 +56,8 @@ public class AggressiveAgent implements Agent {
 		System.out.println("Country #" + maxCountry.getId() + " is chosen to put " + bonusArmies + " soldiers");
 
 		// Perform the actual changes
-		// ArmyPlacement placement = new ArmyPlacement(minCountry, bonusArmies);
-		// state.placeArmy(placement);
+		 ArmyPlacement placement = new ArmyPlacement(maxCountry, bonusArmies);
+		 state.placeArmy(placement);
 
 	}
 
@@ -118,7 +119,7 @@ public class AggressiveAgent implements Agent {
 		// Perform the actual changes
 		Attack attack = new Attack(playerCountry, opponentCountry);
 		attack.setArmyTransferCount((playerCountry.getArmiesSize() - opponentCountry.getArmiesSize()) / 2);
-
+		state.applyAttack(attack);
 	}
 
 	@Override

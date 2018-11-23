@@ -26,37 +26,44 @@ public class GameState implements Cloneable, Comparable<GameState> {
 	public void setPrevTurnAttacked(boolean prevTurnAttacked) {
 		this.prevTurnAttacked = prevTurnAttacked;
 	}
-
-	public void applyAttack(Attack attack) { // Just changes gameState (attacking, changes attacked country owner and number of troops with transfer)
-		if (!isLegalAttack(attack)) {
-			throw new RuntimeException("Cannot apply this (invalid) attack!");
-		}
-		// Placement is already done.
-		Country attackedCountry = this.worldState.getCountryById(attack.getAttackedCountry().getId());
-		Country attackingCountry = this.worldState.getCountryById(attack.getAttackingCountry().getId());
-		attackingCountry.setArmiesSize(attackingCountry.getArmiesSize() - attackedCountry.getArmiesSize() - attack.getArmyTransferCount());
-		attackedCountry.setOwner(playerTurn);
-		attackedCountry.setArmiesSize(attack.getArmyTransferCount());		
-		this.depth++;
-		if (playerTurn == Player.PLAYER_1) {
-			playerTurn = Player.PLAYER_2;
-		} else {
-			playerTurn = Player.PLAYER_1;
-		}
-	 }
-	
 	
 	 public boolean isLegalAttack(Attack attack) {
 		 if (attack.getAttackingCountry().getOwner() == attack.getAttackedCountry().getOwner()) {
 			 return false;
 		 }
-		 for (int adjacentCountryId : worldState.getGraph().getAdjacentCountries(attack.getAttackingCountry().getId())) {
+		 
+		 for (int adjacentCountryId: worldState.getGraph().
+				 getAdjacentCountries(attack.getAttackingCountry().getId())) {
 			 if (attack.getAttackedCountry().getId() == adjacentCountryId
 					  && attack.getAttackingCountry().getArmiesSize() > attack.getAttackedCountry().getArmiesSize() + 1) {
 				 return true;
 			 }
 		 }
 		 return false;
+	 }
+
+	 public void applyAttack(Attack attack) {
+		 if (!isLegalAttack(attack)) {
+			 throw new RuntimeException("Cannot apply this (invalid) attack!");
+		 }
+		 
+		 if (playerTurn == Player.PLAYER_1) {
+			 playerTurn = Player.PLAYER_2;
+		 } else {
+			 playerTurn = Player.PLAYER_1;
+		 }
+		 
+		 if (attack.getAttackingCountry() == null || attack.getAttackedCountry() == null) {
+			 return;
+		 }
+		 // Placement is already done.
+		 Country attackedCountry = this.worldState.getCountryById(attack.getAttackedCountry().getId());
+		 Country attackingCountry = this.worldState.getCountryById(attack.getAttackingCountry().getId());
+		 attackingCountry.setArmiesSize(attackingCountry.getArmiesSize()
+				 						- attackedCountry.getArmiesSize() - attack.getArmyTransferCount());
+		 attackedCountry.setOwner(playerTurn);
+		 attackedCountry.setArmiesSize(attack.getArmyTransferCount());		
+		 this.depth++;
 	 }
 
 	public ArrayList<Attack> getLegalCountriesAttack() {
