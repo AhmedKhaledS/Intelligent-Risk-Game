@@ -106,6 +106,7 @@ public class InputParser {
 	
 	private ArrayList<Continent> buildContinentsList(ArrayList<String> lines, int startIndex, int continentsCount,
 			ArrayList<Country> countries) {
+		int index = 1;
 		ArrayList<Continent> continents = new ArrayList<>();
 		for (int i = startIndex; i < startIndex + continentsCount; i++) {
 			String[] continentDescriptor = lines.get(i).split(" ");
@@ -118,10 +119,11 @@ public class InputParser {
 			Continent continent = new Continent();
 			continent.setContinentBonus(continentBonus);
 			continent.setCountires(continentCountries);
-			continents.add(continent);
+			continent.setContinentID(index++);
 			for (Country country : continentCountries) {
 				country.setContinent(continent);
 			}
+			continents.add(continent);
 		}
 		return continents;
 	}
