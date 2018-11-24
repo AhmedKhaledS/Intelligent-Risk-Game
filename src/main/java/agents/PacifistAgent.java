@@ -13,8 +13,8 @@ public class PacifistAgent implements Agent {
 
 	@Override
 	public void takeTurn(GameState state) {
-		// TODO Auto-generated method stub
-
+		place(state);
+		attack(state);
 	}
 
 	private CountriesPlacementComparator comparator;
@@ -45,7 +45,7 @@ public class PacifistAgent implements Agent {
 			}
 		}
 
-		System.out.println("Country #" + minCountry.getId() + " is chosen to put " + bonusArmies + " soldiers");
+		System.out.println("PACIFIST: Country #" + minCountry.getId() + " is chosen to put " + bonusArmies + " soldiers");
 
 		// Perform the actual changes
 		ArmyPlacement placement = new ArmyPlacement(minCountry, bonusArmies);
@@ -112,7 +112,7 @@ public class PacifistAgent implements Agent {
 
 		int transfereCount = (playerCountry.getArmiesSize() - opponentCountry.getArmiesSize()) / 2;
 
-		System.out.println("Country #" + playerCountry.getId() + " is attacking Country #" + opponentCountry.getId()
+		System.out.println("PACIFIST: Country #" + playerCountry.getId() + " is attacking Country #" + opponentCountry.getId()
 				+ " with transfere of " + transfereCount);
 
 		// Perform the actual changes

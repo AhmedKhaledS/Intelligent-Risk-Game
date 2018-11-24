@@ -143,14 +143,14 @@ public class GameState implements Cloneable, Comparable<GameState> {
 	
 	public Player getWonPlayer() {
 		if (isTerminal()) {
-			return playerTurn;
+			return playerTurn == Player.PLAYER_1 ? Player.PLAYER_2 : Player.PLAYER_1;
 		}
 		return null;
 	}
 	
 	public Player getLostPlayer() {
 		if (isTerminal()) {
-			return playerTurn == Player.PLAYER_1 ? Player.PLAYER_2 : Player.PLAYER_1;
+			return playerTurn;
 		}
 		return null;
 	}

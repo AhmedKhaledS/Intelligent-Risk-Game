@@ -80,7 +80,6 @@ public class Continent implements Comparable<Continent>, Cloneable {
 	}
 	
 	public boolean equals(Object o) {
-	    
 	    if (!(o instanceof Continent)) {
 	      return false;
 	    }

@@ -15,8 +15,8 @@ public class AggressiveAgent implements Agent {
 
 	@Override
 	public void takeTurn(GameState state) {
-		// TODO Auto-generated method stub
-
+		place(state);
+		attack(state);
 	}
 
 	private CountriesPlacementComparator comparator;
@@ -53,7 +53,7 @@ public class AggressiveAgent implements Agent {
 
 		}
 
-		System.out.println("Country #" + maxCountry.getId() + " is chosen to put " + bonusArmies + " soldiers");
+		System.out.println("AGGRESSIVE: Country #" + maxCountry.getId() + " is chosen to put " + bonusArmies + " soldiers");
 
 		// Perform the actual changes
 		ArmyPlacement placement = new ArmyPlacement(maxCountry, bonusArmies);
@@ -69,6 +69,8 @@ public class AggressiveAgent implements Agent {
 
 		// Check for the possibility of the existence of attack
 		if (attacks.size() == 0) {
+			
+			System.out.println("AGGRESSIVE: I HAVE NO POSSIBLE ATTACKS");
 
 			// Sending "NULL" attack to the "GameState"
 			Attack attack = new Attack(null, null);
@@ -90,14 +92,14 @@ public class AggressiveAgent implements Agent {
 		int maxDamage = Integer.MIN_VALUE;
 
 		for (Attack attack : attacks) {
-
-			if (maxContinent != null && !maxContinent.equals(opponentCountry.getContinent())) {
-				continue;
-			}
-
+			
 			Country currPlayerCountry = attack.getAttackingCountry();
 			Country currOpponentCountry = attack.getAttackedCountry();
 			int currDamage = currOpponentCountry.getArmiesSize();
+						
+			if (maxContinent != null && !maxContinent.equals(currOpponentCountry.getContinent())) {
+				continue;
+			}
 
 			// Change the state if a raising can be achieved in the damage
 			if (currDamage > maxDamage) {
@@ -124,12 +126,15 @@ public class AggressiveAgent implements Agent {
 
 			}
 		}
+		
+		int transfereCount = (playerCountry.getArmiesSize() - opponentCountry.getArmiesSize()) / 2;
 
-		System.out.println("Country #" + playerCountry.getId() + " is attacking Country #" + opponentCountry.getId());
+		System.out.println("Country #" + playerCountry.getId() + " is attacking Country #" + opponentCountry.getId()
+				+ " with transfere of " + transfereCount);
 
 		// Perform the actual changes
 		Attack attack = new Attack(playerCountry, opponentCountry);
-		attack.setArmyTransferCount((playerCountry.getArmiesSize() - opponentCountry.getArmiesSize()) / 2);
+		attack.setArmyTransferCount(transfereCount);
 		state.applyAttack(attack);
 	}
 
@@ -157,7 +162,7 @@ public class AggressiveAgent implements Agent {
 				maxContinentValue = continent.getContinentBonus();
 			}
 		}
-
+		
 		return maxContinent;
 	}
 

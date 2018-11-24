@@ -117,6 +117,7 @@ public class RealTimeAStarAgent extends InformedSearchAgent {
 	
 	@Override
 	public void takeTurn(GameState state) {
+		moves.clear();
 		search(state);
 		place(state);
 		attack(state);
