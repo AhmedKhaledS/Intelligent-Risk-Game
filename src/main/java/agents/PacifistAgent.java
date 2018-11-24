@@ -62,6 +62,8 @@ public class PacifistAgent implements Agent {
 		// Check for the possibility of the existence of attack
 		if (attacks.size() == 0) {
 
+			System.out.println("PACIFIST: I HAVE NO POSSIBLE ATTACKS");
+
 			// Sending "NULL" attack to the "GameState"
 			Attack attack = new Attack(null, null);
 			state.applyAttack(attack);
