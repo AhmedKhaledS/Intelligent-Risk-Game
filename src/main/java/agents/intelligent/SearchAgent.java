@@ -3,7 +3,6 @@ package agents.intelligent;
 import java.util.ArrayList;
 
 import agents.Agent;
-import agents.intelligent.container.Container;
 import game.state.Attack;
 import game.state.GameState;
 
