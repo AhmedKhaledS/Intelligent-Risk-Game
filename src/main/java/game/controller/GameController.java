@@ -62,7 +62,7 @@ public class GameController {
 			player = new GreedyAgent(state, new PassiveAgent(), new UnclaimedTerritoriesHeuristic());
 			break;
 		case 7:
-			player = new RealTimeAStarAgent(state, new PassiveAgent(), new UnclaimedTerritoriesHeuristic(), 3);
+			player = new RealTimeAStarAgent(state, new PassiveAgent(), new UnclaimedTerritoriesHeuristic(), 4);
 		}
 		return player;
 	}

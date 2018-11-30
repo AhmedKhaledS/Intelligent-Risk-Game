@@ -38,9 +38,10 @@ public class RealTimeAStarAgent extends InformedSearchAgent {
 		while (!searchQueue.isEmpty()) {
 			GameState current = searchQueue.poll();
 			if (!firstTurn) {  									//	Opponent Agent does not take turn in first iteration. (Player 1 starts)		
-				opponentAgent.takeTurn(current);
+//				opponentAgent.takeTurn(current);
 			}
-			if (current.isTerminal() || (allHaveSameDepth(searchQueue) && current.getDepth() == depth)) { // Terminal State : backtracking to get the list of attacks done in the path to terminal state.
+			if (current.isTerminal() || current.getDepth() - initialState.getDepth() >= depth) { // Terminal State : backtracking to get the list of attacks done in the path to terminal state.
+				System.out.println("REACHEDDDDDDD");
 				while (current.getPreviousState() != null) {
 					moves.add(attacks.get(current));
 					current = current.getPreviousState();
@@ -64,7 +65,8 @@ public class RealTimeAStarAgent extends InformedSearchAgent {
 				virtual.setPrevTurnAttacked(false);
 				virtual.applyAttack(nonAttack);
 				virtual.setPreviousState(current);
-//				if (virtual.getCost() < alpha) {					
+//				if (virtual.getCost() < alpha) {				
+					opponentAgent.takeTurn(virtual);
 					addGameState(searchQueue, visited, virtual);
 					attacks.put(virtual, nonAttack);
 					alpha = virtual.getCost();
@@ -83,7 +85,8 @@ public class RealTimeAStarAgent extends InformedSearchAgent {
 							newVirtual.setCost(heuristic.getHeuristicValue(newVirtual) + newVirtual.getDepth());
 							newVirtual.applyAttack(newAttack);
 							newVirtual.setPreviousState(current);
-//							if (newVirtual.getCost() < alpha) {								
+//							if (newVirtual.getCost() < alpha) {			
+								opponentAgent.takeTurn(newVirtual);
 								addGameState(searchQueue, visited, newVirtual);
 								attacks.put(newVirtual, newAttack);
 								alpha = virtual.getCost();
@@ -94,10 +97,11 @@ public class RealTimeAStarAgent extends InformedSearchAgent {
 			}
 			
 		}
+		System.out.println("Failed to get any moves.");
 	}
 
 	public void addGameState(PriorityQueue<GameState> searchQueue, Set<GameState> visited, GameState state) {
-		if (!visited.contains(state) && state.getDepth() <= this.depth) {
+		if (!visited.contains(state)) {
 			searchQueue.add(state);
 		}
 //		System.out.println(" Search Queue size : " + searchQueue.size());
@@ -129,11 +133,16 @@ public class RealTimeAStarAgent extends InformedSearchAgent {
 	public void place(GameState state) {
 		Attack attack = moves.get(0);
 		state.placeArmy(attack.getPlacement());
+		System.out.println("REAL TIME A*: Country #" + attack.getPlacement().getChosenCountry().getId() +
+                " is chosen to put " + attack.getPlacement().getTroopsCount() + " soldiers");
 	}
 
 	@Override
 	public void attack(GameState state) {
 		state.applyAttack(moves.get(0));
+//		System.out.println("REAL TIME A*: Country #" + moves.get(0).getAttackingCountry().getId() +
+//                " is attacking Country #" + moves.get(0).getAttackedCountry().getId()
+//        + " with transfere of " + moves.get(0).getArmyTransferCount());
 	}
 
 	
