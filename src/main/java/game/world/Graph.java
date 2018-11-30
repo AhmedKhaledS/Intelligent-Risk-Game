@@ -4,9 +4,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author ahmednagga19
+ * Class Graph represents the adjacency list of the world countries.
+ */
 public class Graph implements Cloneable {
 	
+	/**
+	 * Adjacency list for the graph.
+	 */
 	private ArrayList<ArrayList<Integer>> adjacencyList;
+	/**
+	 * Id for each country.
+	 */
 	private Map<Integer, Country> countriesIndex;
 
 	public Map<Integer, Country> getCountriesIndex() {

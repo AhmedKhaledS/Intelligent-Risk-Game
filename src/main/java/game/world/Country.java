@@ -2,11 +2,27 @@ package game.world;
 
 import game.Player;
 
+/**
+ * @author ahmednagga19
+ * Class Country represents a country on the risk map including the owner player, army size, and country id.
+ */
 public class Country implements Comparable<Country>, Cloneable {
 	
+	/**
+	 * Owner player of this country
+	 */
 	private Player owner;
+	/**
+	 * army size located in this country by this player
+	 */
 	private int armySize;
+	/**
+	 * Country id
+	 */
 	private int id;
+	/**
+	 * The continent to which this country belongs
+	 */
 	private Continent continent;
 	
 	public Continent getContinent() {

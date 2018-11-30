@@ -2,13 +2,22 @@ package game.world;
 
 import java.util.ArrayList;
 import java.util.Collections;
-
 import game.util.ContinentsComparator;
-import game.util.CountriesComparator;
 
+/**
+ * @author ahmednagga19
+ * Class World depicts the World Map of the Risk Game. It contains all information about the countries.
+ * continents and graph of the world.
+ */
 public class World implements Comparable<World>, Cloneable {
 
+	/**
+	 * List of continents in this world
+	 */
 	private ArrayList<Continent> continents;
+	/**
+	 * Graph representing the connections between all countries in the world
+	 */
 	private Graph graph;
 
 	public World() {

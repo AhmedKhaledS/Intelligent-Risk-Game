@@ -6,10 +6,24 @@ import java.util.Collections;
 import game.Player;
 import game.util.CountriesComparator;
 
+/**
+ * @author ahmednagga19
+ * Class continent represenst a continent on the risk map including the continent id, list of 
+ * countries on continent, and bonus of claiming this continent.
+ */
 public class Continent implements Comparable<Continent>, Cloneable {
 	
+	/**
+	 * Bonus of claiming this continent
+	 */
 	private int continentBonus;
+	/**
+	 * List of countries included in this continent
+	 */
 	private ArrayList<Country> countries;
+	/**
+	 * Continent ID
+	 */
 	private int continentID;
 
 	public Continent() {
