@@ -1,6 +1,8 @@
 package gui;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 import org.graphstream.graph.*;
@@ -24,6 +26,9 @@ import game.world.Country;
 
 public class MainController {
 	
+	private static String continentsColor[] = {"#3a54a5", "#ddda04", "#4f4c4c", "#60a568"};
+	private static String playersColors[] = {"#b1e0e2", "#40ed48"};
+	
 	public static GameState initializeGame(String configFileName) {
 		InputParser parser = new InputParser();
 		return parser.parse(configFileName);
@@ -31,12 +36,21 @@ public class MainController {
 	
 	/**
 	 * Returns the winning player.
+	 * @throws InterruptedException 
 	 */
-	public static Player run(GameState gs, Agent firstAgent, Agent secondAgent) {
+	public static Player run(GameState gs, Agent firstAgent, Agent secondAgent, Graph graph) throws InterruptedException {
 		Agent currentAgent = firstAgent;
 		Player currentPlayer = Player.PLAYER_1;
 		while (!gs.isTerminal()) {
-			currentAgent.takeTurn(gs);
+			currentAgent.place(gs);
+			Thread.sleep(2000);
+			updateGUIGameState(gs, graph);
+			currentAgent.attack(gs);
+			Thread.sleep(2000);
+			updateGUIGameState(gs, graph);
+			currentAgent.transfer(gs);
+			Thread.sleep(2000);
+			updateGUIGameState(gs, graph);
 			if (currentPlayer == Player.PLAYER_1) {
 				currentPlayer = Player.PLAYER_2;
 				currentAgent = secondAgent;
@@ -48,6 +62,7 @@ public class MainController {
 		return gs.getWonPlayer();
 	}
 	
+
 	private static Agent initiatePlayersTypes(GameState state, int agentId) {
 		Agent player = null;
 		switch (agentId) {
@@ -75,6 +90,46 @@ public class MainController {
 		return player;
 	}
 	
+	
+	private static Graph createGSGraph(GameState gs) {
+		Graph graph = new SingleGraph("Risk");
+		for (Continent continent : gs.getWorldState().getContinents()) {
+			for (Country country : continent.getCountires()) {
+				graph.addNode(Integer.valueOf(country.getId()).toString());
+				Node node = graph.getNode(Integer.valueOf(country.getId()).toString());
+				node.addAttribute("ui.label", "ID: " + Integer.valueOf(country.getId()).toString() + "   Troops: " + country.getArmiesSize());
+				node.addAttribute("ui.style", "shape:circle;fill-color: "
+						+ playersColors[country.getOwner() == Player.PLAYER_1 ? 0 : 1]
+						+ ";size: 140px; text-alignment: center; text-size: 15; stroke-color: "
+						+ continentsColor[gs.getWorldState().getGraph().getCountryByIndex(country.getId()).getContinent().getContinentID()]
+						+ "; stroke-mode: plain; stroke-width: 6px; fill-mode: plain;");
+			}
+		}
+		int nodeCount = 0;
+		int edgeId = 1;
+		for (ArrayList<Integer> adjacentNodes : gs.getWorldState().getGraph().getAdjacencyList()) {
+			for (Integer countryId : adjacentNodes) {
+				graph.addEdge(Integer.valueOf(edgeId++).toString(), Integer.valueOf(nodeCount).toString(), Integer.valueOf(countryId).toString(), true);
+			}
+			nodeCount++;
+		}
+		return graph;
+	}
+	
+	private static void updateGUIGameState(GameState gs, Graph graph) {
+		for (Continent continent : gs.getWorldState().getContinents()) {
+			for (Country country : continent.getCountires()) {
+				Node node = graph.getNode(Integer.valueOf(country.getId()).toString());
+				node.setAttribute("ui.label", "ID: " + Integer.valueOf(country.getId()).toString() + "   Troops: " + country.getArmiesSize());
+				node.setAttribute("ui.style", "shape:circle;fill-color: "
+						+ playersColors[country.getOwner() == Player.PLAYER_1 ? 0 : 1]
+						+ ";size: 140px; text-alignment: center; text-size: 15; stroke-color: "
+						+ continentsColor[gs.getWorldState().getGraph().getCountryByIndex(country.getId()).getContinent().getContinentID()]
+						+ "; stroke-mode: plain; stroke-width: 6px; fill-mode: plain;");
+			}
+		}
+	}
+	
 	public static void main(String args[]) {
 		
 		GameState gs = initializeGame("testOptimisticHeuristic.txt");
@@ -94,52 +149,15 @@ public class MainController {
 		} else {
 			player2 = new PassiveAgent();
 		}
-//		wonPlayer = run(gs, player1, player2);
-//		System.out.println("Won player: " + wonPlayer);
 		
 		System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
-		SingleGraph graph = new SingleGraph("Use");
-		String continentsColor[] = {"#3a54a5", "#ddda04", "#4f4c4c", "#60a568"};
-		String playersColors[] = {"#161c4c", "#3d0101"};
-		for (Continent continent : gs.getWorldState().getContinents()) {
-			for (Country country : continent.getCountires()) {
-				System.out.println("Node id: " + country.getId());
-				graph.addNode(Integer.valueOf(country.getId()).toString());
-				
-				Node node = graph.getNode(Integer.valueOf(country.getId()).toString());
-				node.addAttribute("ui.label", Integer.valueOf(country.getId()).toString());
-				node.addAttribute("ui.style", "shape:circle;fill-color: "
-						+ playersColors[gs.getPlayerTurn() == Player.PLAYER_1 ? 0 : 1]
-						+ ";size: 90px; text-alignment: center; stroke-color: "
-						+ continentsColor[gs.getWorldState().getGraph().getCountryByIndex(country.getId()).getContinent().getContinentID()]
-						+ "; stroke-mode: plain; stroke-width: 5px; fill-mode: plain;");
-			}
-		}
-		int nodeCount = 0;
-		int edgeId = 1;
-		for (ArrayList<Integer> adjacentNodes : gs.getWorldState().getGraph().getAdjacencyList()) {
-			for (Integer countryId : adjacentNodes) {
-				graph.addEdge(Integer.valueOf(edgeId++).toString(), Integer.valueOf(nodeCount).toString(), Integer.valueOf(countryId).toString(), true);
-			}
-			nodeCount++;
-		}
+		Graph graph = createGSGraph(gs);
 		graph.display();
-		
-//	    graph.addNode("B");
-//	    graph.addNode("C");
-//	    graph.addNode("D");
-//	    graph.addNode("E");
-//	    graph.addNode("F");
-//	    graph.addEdge("AB", "A", "B",true);
-//	    graph.addEdge("BC", "B", "C",true);
-//	    graph.addEdge("CA", "C", "A",true);
-//	    graph.addEdge("CD", "C", "D",true);
-//	    graph.addEdge("DF", "D", "F",true);
-//	    graph.addEdge("EF", "E", "F",true);
-//	    graph.addEdge("DE", "D", "E",true);
-//	    Node e1=graph.getNode("A");
-//	    e1.addAttribute("ui.style", "shape:circle;fill-color: blue;size: 90px; text-alignment: center;");
-//	    e1.addAttribute("ui.label", "node A");
-//	    graph.display();
+		try {
+			wonPlayer = run(gs, player1, player2, graph);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		System.out.println("Won player: " + wonPlayer);
 	}
 }
