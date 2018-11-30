@@ -9,6 +9,7 @@ import agents.PassiveAgent;
 import agents.intelligent.AStarAgent;
 import agents.intelligent.GreedyAgent;
 import agents.intelligent.RealTimeAStarAgent;
+import agents.intelligent.heuristics.UnclaimedOptimiticHeuristic;
 import agents.intelligent.heuristics.UnclaimedTerritoriesHeuristic;
 import game.Player;
 import game.state.GameState;
@@ -55,7 +56,7 @@ public class GameController {
 			player = new HumanAgent();
 			break;
 		case 5:
-			player = new AStarAgent(state, new PassiveAgent(), new UnclaimedTerritoriesHeuristic());
+			player = new AStarAgent(state, new PassiveAgent(), new UnclaimedOptimiticHeuristic());
 			break;
 		case 6:
 			player = new GreedyAgent(state, new PassiveAgent(), new UnclaimedTerritoriesHeuristic());
@@ -67,7 +68,7 @@ public class GameController {
 	}
 	
 	public static void main(String[] args) {
-		GameState gs = initializeGame("config.txt");
+		GameState gs = initializeGame("testOptimisticHeuristic.txt");
 		System.out.println("Select agent for Player 1: 1) Aggressive  2) Passive  3) Pacifist  4) Human  5) A*  6) Greedy  7) Real Time A*");
 		Scanner input = new Scanner(System.in);
 		Agent player1 = null, player2 = null;

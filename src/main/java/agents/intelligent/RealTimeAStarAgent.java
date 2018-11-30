@@ -46,7 +46,7 @@ public class RealTimeAStarAgent extends InformedSearchAgent {
 					current = current.getPreviousState();
 				}
 				Collections.reverse(moves);
-				System.out.println(moves.size());
+				System.out.println("Moves Size: " + moves.size());
 				return;
 			}
 			visited.add(current);
@@ -64,11 +64,11 @@ public class RealTimeAStarAgent extends InformedSearchAgent {
 				virtual.setPrevTurnAttacked(false);
 				virtual.applyAttack(nonAttack);
 				virtual.setPreviousState(current);
-				if (virtual.getCost() < alpha) {					
+//				if (virtual.getCost() < alpha) {					
 					addGameState(searchQueue, visited, virtual);
 					attacks.put(virtual, nonAttack);
 					alpha = virtual.getCost();
-				}
+//				}
 				if (!possibleAttacks.isEmpty()) {				// Handle possible attacks and check for each one of them the possible transfer of armies.
 					for (Attack possibleAttack : possibleAttacks) {
 						Country attacking = possibleAttack.getAttackingCountry();
@@ -83,11 +83,11 @@ public class RealTimeAStarAgent extends InformedSearchAgent {
 							newVirtual.setCost(heuristic.getHeuristicValue(newVirtual) + newVirtual.getDepth());
 							newVirtual.applyAttack(newAttack);
 							newVirtual.setPreviousState(current);
-							if (newVirtual.getCost() < alpha) {								
+//							if (newVirtual.getCost() < alpha) {								
 								addGameState(searchQueue, visited, newVirtual);
 								attacks.put(newVirtual, newAttack);
 								alpha = virtual.getCost();
-							}
+//							}
 						}
 					}
 				}
@@ -100,6 +100,7 @@ public class RealTimeAStarAgent extends InformedSearchAgent {
 		if (!visited.contains(state) && state.getDepth() <= this.depth) {
 			searchQueue.add(state);
 		}
+//		System.out.println(" Search Queue size : " + searchQueue.size());
 		return;
 	}
 	

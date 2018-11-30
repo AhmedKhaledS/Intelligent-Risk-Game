@@ -47,7 +47,7 @@ public class PassiveAgent implements Agent {
 			}
 		}
 
-		System.out.println("PASSIVE: Country #" + minCountry.getId() + " is chosen to put " + bonusArmies + " soldiers");
+//		System.out.println("PASSIVE: Country #" + minCountry.getId() + " is chosen to put " + bonusArmies + " soldiers");
 
 		// Perform the actual changes
 		ArmyPlacement placement = new ArmyPlacement(minCountry, bonusArmies);

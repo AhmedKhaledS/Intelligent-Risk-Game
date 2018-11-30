@@ -29,6 +29,11 @@ public abstract class SearchAgent implements Agent {
 		}
 		place(state);
 		attack(state);
+		Attack move = moves.get(index);
+		int transfereCount = (move.getAttackingCountry().getArmiesSize() - move.getAttackedCountry().getArmiesSize()) / 2;
+
+		System.out.println("Country #" + move.getAttackingCountry().getId() + " is attacking Country #" + move.getAttackedCountry().getId()
+				+ " with transfere of " + transfereCount);
 		index++;
 		System.out.println("In Search Agent: Performed Move # " + index);
 	}
