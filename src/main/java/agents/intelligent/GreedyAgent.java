@@ -36,9 +36,6 @@ public class GreedyAgent extends InformedSearchAgent {
 		Map<GameState, Attack> attacks = new HashMap<>();
 		while (!searchQueue.isEmpty()) {
 			GameState current = searchQueue.poll();
-			if (!firstTurn) {  									//	Opponent Agent does not take turn in first iteration. (Player 1 starts)		
-				opponentAgent.takeTurn(current);
-			}
 			if (current.isTerminal()) {							// Terminal State : backtracking to get the list of attacks done in the path to terminal state.
 				while (current.getPreviousState() != null) {
 					moves.add(attacks.get(current));
@@ -63,6 +60,7 @@ public class GreedyAgent extends InformedSearchAgent {
 				virtual.setPrevTurnAttacked(false);
 				virtual.applyAttack(nonAttack);
 				virtual.setPreviousState(current);
+				opponentAgent.takeTurn(virtual);
 				addGameState(searchQueue, visited, virtual);
 				attacks.put(virtual, nonAttack);
 				if (!possibleAttacks.isEmpty()) {				// Handle possible attacks and check for each one of them the possible transfer of armies.
@@ -79,6 +77,7 @@ public class GreedyAgent extends InformedSearchAgent {
 							newVirtual.setCost(heuristic.getHeuristicValue(newVirtual));
 							newVirtual.applyAttack(newAttack);
 							newVirtual.setPreviousState(current);
+							opponentAgent.takeTurn(newVirtual);
 							addGameState(searchQueue, visited, newVirtual);
 							attacks.put(newVirtual, newAttack);
 						}
