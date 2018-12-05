@@ -41,13 +41,11 @@ public class RealTimeAStarAgent extends InformedSearchAgent {
 //				opponentAgent.takeTurn(current);
 			}
 			if (current.isTerminal() || current.getDepth() - initialState.getDepth() >= depth) { // Terminal State : backtracking to get the list of attacks done in the path to terminal state.
-				System.out.println("REACHEDDDDDDD");
 				while (current.getPreviousState() != null) {
 					moves.add(attacks.get(current));
 					current = current.getPreviousState();
 				}
 				Collections.reverse(moves);
-				System.out.println("Moves Size: " + moves.size());
 				return;
 			}
 			visited.add(current);

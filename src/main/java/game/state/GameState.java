@@ -54,6 +54,7 @@ public class GameState implements Cloneable, Comparable<GameState> {
 		 if (attack.getAttackingCountry() == null || attack.getAttackedCountry() == null) {
 			 return;
 		 }
+		 
 		 // Placement is already done.
 		 Country attackedCountry = this.worldState.getCountryById(attack.getAttackedCountry().getId());
 		 Country attackingCountry = this.worldState.getCountryById(attack.getAttackingCountry().getId());

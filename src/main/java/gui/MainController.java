@@ -1,8 +1,6 @@
 package gui;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 import org.graphstream.graph.*;
@@ -43,13 +41,13 @@ public class MainController {
 		Player currentPlayer = Player.PLAYER_1;
 		while (!gs.isTerminal()) {
 			currentAgent.place(gs);
-			Thread.sleep(2000);
+//			Thread.sleep(2000);
 			updateGUIGameState(gs, graph);
 			currentAgent.attack(gs);
-			Thread.sleep(2000);
+//			Thread.sleep(2000);
 			updateGUIGameState(gs, graph);
 			currentAgent.transfer(gs);
-			Thread.sleep(2000);
+//			Thread.sleep(2000);
 			updateGUIGameState(gs, graph);
 			if (currentPlayer == Player.PLAYER_1) {
 				currentPlayer = Player.PLAYER_2;
@@ -109,7 +107,8 @@ public class MainController {
 		int edgeId = 1;
 		for (ArrayList<Integer> adjacentNodes : gs.getWorldState().getGraph().getAdjacencyList()) {
 			for (Integer countryId : adjacentNodes) {
-				graph.addEdge(Integer.valueOf(edgeId++).toString(), Integer.valueOf(nodeCount).toString(), Integer.valueOf(countryId).toString(), true);
+				graph.addEdge(Integer.valueOf(edgeId++).toString(), 
+						Integer.valueOf(nodeCount).toString(), Integer.valueOf(countryId).toString(), true);
 			}
 			nodeCount++;
 		}
