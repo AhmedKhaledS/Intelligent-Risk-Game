@@ -37,9 +37,6 @@ public class RealTimeAStarAgent extends InformedSearchAgent {
 		int alpha = Integer.MAX_VALUE;
 		while (!searchQueue.isEmpty()) {
 			GameState current = searchQueue.poll();
-			if (!firstTurn) {  									//	Opponent Agent does not take turn in first iteration. (Player 1 starts)		
-//				opponentAgent.takeTurn(current);
-			}
 			if (current.isTerminal() || current.getDepth() - initialState.getDepth() >= depth) { // Terminal State : backtracking to get the list of attacks done in the path to terminal state.
 				while (current.getPreviousState() != null) {
 					moves.add(attacks.get(current));
