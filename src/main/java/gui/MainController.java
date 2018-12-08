@@ -9,6 +9,7 @@ import org.graphstream.graph.implementations.*;
 import agents.Agent;
 import agents.AggressiveAgent;
 import agents.HumanAgent;
+import agents.HumanAgentGUI;
 import agents.PacifistAgent;
 import agents.PassiveAgent;
 import agents.intelligent.AStarAgent;
@@ -74,7 +75,7 @@ public class MainController {
 			player = new PacifistAgent();
 			break;
 		case 4:
-			player = new HumanAgent();
+			player = new HumanAgentGUI();
 			break;
 		case 5:
 			player = new AStarAgent(state, new PassiveAgent(), new UnclaimedOptimiticHeuristic());
