@@ -311,7 +311,6 @@ public class GameState implements Cloneable, Comparable<GameState> {
 
 		GameState clone = (GameState) gs.clone();
 		System.out.println("gs1: " + gs + ",  gs2: " + clone);
-//		clone.getWorldState().setContinents(null);
 		System.out.println("1) size of continentsA: " + gs.getWorldState().getContinents().size() + ", size of continentsB: " + clone.getWorldState().getContinents().size());
 		clone.getWorldState().getContinents().get(1).setContinentID(2);;
 		System.out.println("2) size of continentsA: " + gs.getWorldState().getContinents().size() + ", size of continentsB: " + clone.getWorldState().getContinents().size());

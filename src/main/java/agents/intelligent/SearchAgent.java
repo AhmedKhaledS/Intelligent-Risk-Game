@@ -59,7 +59,7 @@ public abstract class SearchAgent implements Agent {
 
 	@Override
 	public void transfer(GameState state) {
-		// TODO Auto-generated method stub
+		index++;
 
 	}
 
